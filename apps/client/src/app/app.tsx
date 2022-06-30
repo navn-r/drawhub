@@ -12,10 +12,7 @@ export function App() {
       <Box mt={2} ml={5}>
         <Routes>
           <Route path="/" element={<Text>This is the Home Page</Text>} />
-          <Route
-            path="/credits"
-            element={<Text>This is the Credits Page</Text>}
-          />
+          <Route path="/credits" element={<Text>This is the Credits Page</Text>} />
         </Routes>
       </Box>
     </>

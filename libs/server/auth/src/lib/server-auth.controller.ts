@@ -5,7 +5,7 @@ import { ServerAuthService } from './server-auth.service';
 export class ServerAuthController {
   constructor(private authService: ServerAuthService) {}
 
-  @Get("/")
+  @Get('/')
   getCurrentUser() {
     return this.authService.getCurrentUser();
   }

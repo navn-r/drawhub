@@ -6,12 +6,7 @@ export interface HeaderProps {}
 
 export function Header(props: HeaderProps) {
   return (
-    <Stack
-      justifyContent={'space-between'}
-      alignItems={'center'}
-      direction={'row'}
-      m={5}
-    >
+    <Stack justifyContent={'space-between'} alignItems={'center'} direction={'row'} m={5}>
       <Heading size={'lg'}>DrawHub</Heading>
       <ButtonGroup spacing={5} variant={'link'} colorScheme={'twitter'}>
         <Link to={'/'}>
