@@ -9,9 +9,13 @@
   },
   "private": true,
   "devDependencies": {
+    "@nestjs/schematics": "^8.0.0",
+    "@nestjs/testing": "^8.0.0",
     "@nrwl/cli": "14.3.6",
     "@nrwl/eslint-plugin-nx": "14.3.6",
     "@nrwl/linter": "14.3.6",
+    "@nrwl/nest": "^14.3.6",
+    "@nrwl/node": "14.3.6",
     "@nrwl/react": "^14.3.6",
     "@nrwl/web": "14.3.6",
     "@nrwl/workspace": "14.3.6",
@@ -37,12 +41,17 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@nestjs/common": "^8.0.0",
+    "@nestjs/core": "^8.0.0",
+    "@nestjs/platform-express": "^8.0.0",
     "core-js": "^3.6.5",
     "framer-motion": "^6.3.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.3.0",
+    "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
+    "rxjs": "^7.0.0",
     "tslib": "^2.0.0"
   }
 }

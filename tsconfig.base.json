@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@drawhub/client/ui": ["libs/client/ui/src/index.ts"]
+      "@drawhub/client/ui": ["libs/client/ui/src/index.ts"],
+      "@drawhub/server/auth": ["libs/server/auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
