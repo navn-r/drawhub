@@ -1,7 +1,8 @@
-name: Lint CI
+name: CI
 
 on:
   push:
+    branches: ['main']
 
   pull_request:
     branches: ['main']
@@ -9,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  main:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
