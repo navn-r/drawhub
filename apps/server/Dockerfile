@@ -4,11 +4,12 @@ FROM drawhub/base:latest AS builder
 # Production Build
 WORKDIR /app/builder
 COPY . /app/builder
-RUN npx nx run server:build:production
+RUN npx nx run server:build:production \
+    && npm prune --production
 
 # Multi stage build step
-# Use base image again
-FROM drawhub/base:latest 
+# Fresh node image
+FROM node:16.15.1-alpine3.16 
 
 WORKDIR /app
 ENV NODE_ENV production
