@@ -31,7 +31,7 @@ services:
       context: .
       # reference the image in the last build stage
       cache_from:
-        - drawhub/base:latest
+        - node:16.15.1-alpine3.16
       dockerfile: ./apps/server/Dockerfile
     image: drawhub/server:latest
     ports:

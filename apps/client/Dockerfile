@@ -1,5 +1,5 @@
 # Depends on: root /Dockerfile base image
-FROM drawhub/base:latest AS builder
+FROM ghcr.io/utscc09/drawhub/base:latest AS builder
 
 # Production Build
 WORKDIR /app/builder
