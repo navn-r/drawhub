@@ -5,6 +5,8 @@ services:
   # nginx
   client:
     container_name: drawhub_client
+    depends_on:
+      - server # for reverse proxy
     build:
       context: .
       # reference the image in the last build stage
