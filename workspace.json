@@ -3,6 +3,8 @@
   "version": 2,
   "projects": {
     "client": "apps/client",
+    "client-credits": "libs/client/credits",
+    "client-landing": "libs/client/landing",
     "client-ui": "libs/client/ui",
     "server": "apps/server",
     "server-auth": "libs/server/auth"
