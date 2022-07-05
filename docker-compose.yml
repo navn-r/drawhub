@@ -1,0 +1,70 @@
+# Production Compose File
+version: '3.8'
+
+services:
+  # nginx
+  client:
+    container_name: drawhub_client
+    depends_on:
+      - server # for reverse proxy
+    build:
+      context: .
+      # reference the image in the last build stage
+      cache_from:
+        - nginx:1.23.0-alpine
+      dockerfile: ./apps/client/Dockerfile
+    image: drawhub/client:latest
+    ports:
+      # exposed port 4200
+      # nginx internal port 80
+      - 4200:80
+    networks:
+      - app
+    restart: always
+
+  # node (uses base image)
+  server:
+    container_name: drawhub_server
+    depends_on:
+      - mongo
+    build:
+      context: .
+      # reference the image in the last build stage
+      cache_from:
+        - node:16.15.1-alpine3.16
+      dockerfile: ./apps/server/Dockerfile
+    image: drawhub/server:latest
+    ports:
+      - 3333:3333
+    environment:
+      - PORT=3333
+      # `mongo` refers to container name
+      # since its outside of this container's localhost
+      - MONGO_URI=mongodb://drawhub:admin@drawhub_mongo:27017
+    networks:
+      - app
+    restart: always
+
+  # see: https://www.mongodb.com/compatibility/docker
+  mongo:
+    container_name: drawhub_mongo
+    image: mongo:latest
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=drawhub
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    networks:
+      - app
+    restart: always
+
+networks:
+  app:
+    # default network driver:
+    #   for standalone containers that need to communicate
+    driver: bridge
+
+volumes:
+  mongodata:
