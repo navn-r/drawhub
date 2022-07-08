@@ -25,6 +25,10 @@ const data = [
         text: 'React Auth0 Quickstart Guide',
         href: 'https://auth0.com/docs/quickstart/spa/react',
       },
+      {
+        text: 'Secure NestJS API Endpoints with Auth0',
+        href: 'https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/',
+      },
     ],
   },
   {

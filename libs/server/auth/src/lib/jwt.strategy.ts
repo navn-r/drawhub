@@ -1,0 +1,35 @@
+import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { passportJwtSecret } from 'jwks-rsa';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+/**
+ * @see https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/
+ */
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor() {
+    super({
+      secretOrKeyProvider: passportJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `${process.env.AUTH0_ISSUER_URL}.well-known/jwks.json`,
+      }),
+
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      audience: process.env.AUTH0_AUDIENCE,
+      issuer: `${process.env.AUTH0_ISSUER_URL}`,
+      algorithms: ['RS256'],
+    });
+  }
+
+  validate(payload: unknown): unknown {
+    // TODO: This runs after a jwt has been verified
+    //  - Can fetch user details here, using token payload
+    return payload;
+  }
+}
