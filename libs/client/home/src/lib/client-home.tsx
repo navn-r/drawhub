@@ -1,12 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Skeleton, Text } from '@chakra-ui/react';
+import { Button, Code, Skeleton, Text } from '@chakra-ui/react';
+import useApi from '../hooks/use-api';
 
 /* eslint-disable-next-line */
 export interface ClientHomeProps {}
 
 export function ClientHome(props: ClientHomeProps) {
   const { isLoading, user } = useAuth0();
+  const { loading, data, error, retryWithPopup } = useApi('/api/protected');
 
   /**
    *
@@ -25,6 +27,15 @@ export function ClientHome(props: ClientHomeProps) {
         element={
           <Skeleton isLoaded={!isLoading}>
             <Text>Welcome to ClientHome, {user?.name}!</Text>
+            <Skeleton isLoaded={!loading}>
+              {error ? (
+                <Button onClick={() => retryWithPopup()}>Authorize with Popup</Button>
+              ) : (
+                <Code display={'block'} whiteSpace={'pre'}>
+                  {JSON.stringify(data ?? error)}
+                </Code>
+              )}
+            </Skeleton>
           </Skeleton>
         }
       />

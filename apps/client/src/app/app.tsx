@@ -15,7 +15,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<ClientLanding />} />
           <Route path="/credits" element={<ClientCredits />} />
-          <Route path="/home" element={<ProtectedRoute component={ClientHome} />} />
+          <Route path="/home/*" element={<ProtectedRoute component={ClientHome} />} />
         </Routes>
       </Box>
       <Footer />

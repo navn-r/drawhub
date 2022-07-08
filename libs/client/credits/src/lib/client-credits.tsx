@@ -29,6 +29,10 @@ const data = [
         text: 'Secure NestJS API Endpoints with Auth0',
         href: 'https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authorization/',
       },
+      {
+        text: 'Custom useApi hook - @auth0/auth0-react',
+        href: 'https://github.com/auth0/auth0-react/blob/master/EXAMPLES.md#4-create-a-useapi-hook-for-accessing-protected-apis-with-an-access-token',
+      },
     ],
   },
   {
@@ -83,7 +87,7 @@ export function ClientCredits(props: ClientCreditsProps) {
           <Heading size={'md'}>{title}</Heading>
           <UnorderedList pl={5} mt={3} mb={5}>
             {items.map(({ text, href }) => (
-              <ListItem>
+              <ListItem key={text + href}>
                 <Link href={href}>{text}</Link>
               </ListItem>
             ))}
