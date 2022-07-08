@@ -1,4 +1,5 @@
 import { Box, Center, Heading, Link, ListItem, UnorderedList } from '@chakra-ui/react';
+import React from 'react';
 
 const data = [
   {
@@ -19,6 +20,10 @@ const data = [
       {
         text: 'React Icons',
         href: 'https://github.com/react-icons/react-icons',
+      },
+      {
+        text: 'React Auth0 Quickstart Guide',
+        href: 'https://auth0.com/docs/quickstart/spa/react',
       },
     ],
   },
@@ -70,7 +75,7 @@ export function ClientCredits(props: ClientCreditsProps) {
         </Heading>
       </Center>
       {data.map(({ title, items }) => (
-        <>
+        <React.Fragment key={title}>
           <Heading size={'md'}>{title}</Heading>
           <UnorderedList pl={5} mt={3} mb={5}>
             {items.map(({ text, href }) => (
@@ -79,7 +84,7 @@ export function ClientCredits(props: ClientCreditsProps) {
               </ListItem>
             ))}
           </UnorderedList>
-        </>
+        </React.Fragment>
       ))}
     </Box>
   );
