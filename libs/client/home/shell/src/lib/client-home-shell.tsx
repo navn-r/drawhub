@@ -1,45 +1,32 @@
+import { ApiProvider } from '@drawhub/client/home/api';
 import { Route, Routes } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Code, Skeleton, Text } from '@chakra-ui/react';
-import { useApi } from '@drawhub/client/home/api';
+
+// FIXME: Temporary; Before moving to separate library
+import HomeRoot from './pages/home-root';
 
 /* eslint-disable-next-line */
 export interface ClientHomeProps {}
 
 export function ClientHomeShell(props: ClientHomeProps) {
-  const { isLoading, user } = useAuth0();
-  const { loading, data, error, retryWithPopup } = useApi('/api/protected');
-
   /**
+   * SHELL LIBRARY
    *
    * **Note**: Every route nested under /home is protected.
    *
    * Any pages that require the user to be authenticated, should be
-   * created under this library, should the route make sense under /home.
+   * created under this folder, should the route make sense under /home.
    *
    * Providers/Stores that need to be shared with nested pages should
-   * also be initialized in this component.
+   * also be initialized in this folder.
+   *
+   * @see https://indepth.dev/posts/1117/the-shell-library-patterns-with-nx-and-monorepo-architectures
    */
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Skeleton isLoaded={!isLoading}>
-            <Text>Welcome to ClientHome, {user?.name}!</Text>
-            <Skeleton isLoaded={!loading}>
-              {error ? (
-                <Button onClick={() => retryWithPopup()}>Authorize with Popup</Button>
-              ) : (
-                <Code display={'block'} whiteSpace={'pre'}>
-                  {JSON.stringify(data ?? error)}
-                </Code>
-              )}
-            </Skeleton>
-          </Skeleton>
-        }
-      />
-    </Routes>
+    <ApiProvider>
+      <Routes>
+        <Route path="/" element={<HomeRoot />} />
+      </Routes>
+    </ApiProvider>
   );
 }
 
