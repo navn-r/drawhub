@@ -1,6 +1,20 @@
-import { Button, Center, Container, createIcon, Flex, Heading, Icon, Image, Stack, Text } from '@chakra-ui/react';
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  Button,
+  Center,
+  Container,
+  createIcon,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Skeleton,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { FaGoogle } from 'react-icons/fa';
+import { FaGoogle, FaPencilAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Arrow SVG, from @aianshume/codenanshu
@@ -34,6 +48,8 @@ const heroTextValues = [
 
 export function ClientLanding(props: ClientLandingProps) {
   const [heroTextIndex, setHeroTextIndex] = useState(0);
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,6 +58,14 @@ export function ClientLanding(props: ClientLandingProps) {
 
     return () => clearInterval(interval);
   }, []);
+
+  const login = () => {
+    return loginWithRedirect({
+      appState: {
+        returnTo: '/home',
+      },
+    });
+  };
 
   return (
     <Container maxW={'6xl'} p={2}>
@@ -54,8 +78,7 @@ export function ClientLanding(props: ClientLandingProps) {
             bgClip={'text'}
             bgGradient={'linear-gradient(90deg, rgba(131, 58, 180, .9) 0%, rgba(253, 29, 29, .9) 100%)'}
           >
-            {' '}
-            {heroTextValues[heroTextIndex]}
+            {' ' + heroTextValues[heroTextIndex]}
           </Text>
         </Heading>
       </Center>
@@ -65,16 +88,23 @@ export function ClientLanding(props: ClientLandingProps) {
             DrawHub is the easiest and fastest way to get your ideas onto a digital canvas. Work alone, or with others
             in realtime, to create and share digital masterpeices straight to the cloud.
           </Text>
-          <Flex>
-            {/* TODO: Replace button with `Sign In with Google` */}
-            <Button leftIcon={<FaGoogle />} colorScheme="green" size={'lg'} w={'min-content'}>
-              Get Started
-            </Button>
-            <Icon as={Arrow} color={'gray.800'} w={71} transform={'translate(-30px, 60px) rotate(20deg)'} />
-            <Text fontSize={'lg'} transform={'translate(-60px, 35px) rotate(10deg)'}>
-              It's free
-            </Text>
-          </Flex>
+          <Skeleton isLoaded={!isLoading} w={'max-content'} h={12} display={'flex'}>
+            {isAuthenticated ? (
+              <Button onClick={() => navigate('/home')} leftIcon={<FaPencilAlt />} size={'lg'} colorScheme={'twitter'}>
+                Start Drawing
+              </Button>
+            ) : (
+              <>
+                <Button onClick={login} leftIcon={<FaGoogle />} colorScheme="green" size={'lg'} w={'min-content'}>
+                  Get Started
+                </Button>
+                <Icon as={Arrow} color={'gray.800'} w={71} transform={'translate(-30px, 60px) rotate(20deg)'} />
+                <Text fontSize={'lg'} transform={'translate(-60px, 35px) rotate(10deg)'}>
+                  It's free
+                </Text>
+              </>
+            )}
+          </Skeleton>
         </Stack>
         <Image w={'xl'} alt={'team drawing'} src={'/assets/undraw_team_collaboration.svg'} />
       </Flex>

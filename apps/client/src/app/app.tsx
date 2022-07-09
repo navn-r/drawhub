@@ -2,9 +2,10 @@ import './app.scss';
 
 import { Flex, Box } from '@chakra-ui/react';
 import { ClientLanding } from '@drawhub/client/landing';
-import { Footer, Header } from '@drawhub/client/ui';
+import { Footer, Header, ProtectedRoute } from '@drawhub/client/ui';
 import { Route, Routes } from 'react-router-dom';
 import { ClientCredits } from '@drawhub/client/credits';
+import { ClientHome } from '@drawhub/client/home';
 
 export function App() {
   return (
@@ -14,6 +15,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<ClientLanding />} />
           <Route path="/credits" element={<ClientCredits />} />
+          <Route path="/home/*" element={<ProtectedRoute component={ClientHome} />} />
         </Routes>
       </Box>
       <Footer />
