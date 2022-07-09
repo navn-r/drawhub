@@ -8,7 +8,13 @@ export interface ClientHomeProps {}
 
 export function ClientHome(props: ClientHomeProps) {
   const { isLoading, user } = useAuth0();
-  const { loading, data, error, retryWithPopup } = useApi('/api/protected');
+  const { loading, data, error, retryWithPopup } = useApi(
+    'POST',
+    '/api/canvas/',
+    JSON.stringify({
+      name: 'test',
+    })
+  );
 
   /**
    *

@@ -6,7 +6,7 @@ const accessTokenOptions = { audience: process.env['NX_AUTH0_AUDIENCE'] };
 /**
  * @see https://github.com/auth0/auth0-react/blob/master/EXAMPLES.md#4-create-a-useapi-hook-for-accessing-protected-apis-with-an-access-token
  */
-export const useApi = (url: string) => {
+export const useApi = (method: 'GET' | 'POST', url: string, body?: string) => {
   const { getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
   const [refresh, setRefresh] = useState(0);
   const [state, setState] = useState({
@@ -17,7 +17,7 @@ export const useApi = (url: string) => {
 
   /**
    * `getAccessTokenSilently` is not allowed on the localhost domain;
-   *  only used in local development as a fallback to slient token
+   *  only used in local development as a fallback to silent token
    */
   const retryWithPopup = async () => {
     await getAccessTokenWithPopup(accessTokenOptions);
@@ -28,12 +28,18 @@ export const useApi = (url: string) => {
     (async () => {
       try {
         const accessToken = await getAccessTokenSilently(accessTokenOptions);
-
-        const data = await fetch(url, {
+        const options: RequestInit = {
+          method,
+          body,
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
           },
-        }).then((res) => res.json());
+        };
+
+        console.log(refresh, url, options);
+
+        const data = await fetch(url, options).then((res) => res.json());
 
         setState({
           data,
@@ -48,7 +54,7 @@ export const useApi = (url: string) => {
         });
       }
     })();
-  }, [getAccessTokenSilently, url, refresh]);
+  }, [getAccessTokenSilently, url, refresh, method, body]);
 
   return {
     ...state,

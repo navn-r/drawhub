@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Canvas, CanvasDocument } from './canvas.schema';
 
 @Injectable()
-export class ServerCanvasService {
+export class CanvasService {
   constructor(
     @InjectModel(Canvas.name)
     private model: Model<CanvasDocument>
@@ -12,5 +12,9 @@ export class ServerCanvasService {
 
   createCanvas(item: Canvas): Promise<Canvas> {
     return this.model.create(item);
+  }
+
+  getAllCanvas(): Promise<Canvas[]> {
+    return this.model.find().exec();
   }
 }

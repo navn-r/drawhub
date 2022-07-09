@@ -5,14 +5,14 @@ export type CanvasDocument = Canvas & Document;
 
 @Schema({ timestamps: true })
 export class Canvas {
-  @Prop({ required: true, trim: true, maxlength: 120 })
+  @Prop({ required: false, trim: true, maxlength: 120 })
   name: string;
 
   @Prop({ required: true })
-  membercount: number;
+  memberCount: number;
 
   @Prop({ required: true })
-  contributers: string[];
+  contributors: string[];
 }
 
 export type CreateCanvasDto = Omit<Canvas, 'contributors' | 'memberCount'>;

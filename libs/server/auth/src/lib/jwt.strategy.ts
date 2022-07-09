@@ -27,9 +27,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: unknown): unknown {
-    // TODO: This runs after a jwt has been verified
-    //  - Can fetch user details here, using token payload
-    return payload;
+  validate(payload: unknown): { email: string } {
+    const email = payload['https://drawhub.com/email'];
+    return { email };
   }
 }
