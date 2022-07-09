@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@drawhub/client/credits": ["libs/client/credits/src/index.ts"],
-      "@drawhub/client/home": ["libs/client/home/src/index.ts"],
+      "@drawhub/client/home/api": ["libs/client/home/api/src/index.ts"],
+      "@drawhub/client/home/shell": ["libs/client/home/shell/src/index.ts"],
       "@drawhub/client/landing": ["libs/client/landing/src/index.ts"],
       "@drawhub/client/ui": ["libs/client/ui/src/index.ts"],
       "@drawhub/server/auth": ["libs/server/auth/src/index.ts"],

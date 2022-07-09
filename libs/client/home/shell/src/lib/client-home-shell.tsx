@@ -1,20 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Code, Skeleton, Text } from '@chakra-ui/react';
-import useApi from '../hooks/use-api';
+import { useApi } from '@drawhub/client/home/api';
 
 /* eslint-disable-next-line */
 export interface ClientHomeProps {}
 
-export function ClientHome(props: ClientHomeProps) {
+export function ClientHomeShell(props: ClientHomeProps) {
   const { isLoading, user } = useAuth0();
-  const { loading, data, error, retryWithPopup } = useApi(
-    'POST',
-    '/api/canvas/',
-    JSON.stringify({
-      name: 'test',
-    })
-  );
+  const { loading, data, error, retryWithPopup } = useApi('/api/protected');
 
   /**
    *
@@ -49,4 +43,4 @@ export function ClientHome(props: ClientHomeProps) {
   );
 }
 
-export default ClientHome;
+export default ClientHomeShell;
