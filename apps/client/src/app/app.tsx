@@ -1,10 +1,9 @@
 import './app.scss';
 
 import { Flex, Box } from '@chakra-ui/react';
-import { ClientLanding } from '@drawhub/client/landing';
+import { ClientLanding, ClientCredits } from '@drawhub/client/landing';
 import { Footer, Header, ProtectedRoute } from '@drawhub/client/ui';
 import { Route, Routes } from 'react-router-dom';
-import { ClientCredits } from '@drawhub/client/credits';
 import { ClientHomeShell } from '@drawhub/client/home/shell';
 
 export function App() {

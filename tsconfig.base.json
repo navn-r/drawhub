@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@drawhub/client/credits": ["libs/client/credits/src/index.ts"],
       "@drawhub/client/home/api": ["libs/client/home/api/src/index.ts"],
       "@drawhub/client/home/dashboard": ["libs/client/home/dashboard/src/index.ts"],
       "@drawhub/client/home/draw": ["libs/client/home/draw/src/index.ts"],
