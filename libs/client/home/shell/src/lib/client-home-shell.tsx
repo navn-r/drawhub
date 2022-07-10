@@ -1,8 +1,8 @@
+import { Grid } from '@chakra-ui/react';
 import { ApiProvider } from '@drawhub/client/home/api';
+import { ClientHomeDashboard } from '@drawhub/client/home/dashboard';
 import { Route, Routes } from 'react-router-dom';
-
-// FIXME: Temporary; Before moving to separate library
-import HomeRoot from './pages/home-root';
+import Sidebar from './sidebar/sidebar';
 
 /* eslint-disable-next-line */
 export interface ClientHomeProps {}
@@ -23,9 +23,12 @@ export function ClientHomeShell(props: ClientHomeProps) {
    */
   return (
     <ApiProvider>
-      <Routes>
-        <Route path="/" element={<HomeRoot />} />
-      </Routes>
+      <Grid h={'100%'} columnGap={5} templateColumns={'max-content auto'}>
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={<ClientHomeDashboard />} />
+        </Routes>
+      </Grid>
     </ApiProvider>
   );
 }
