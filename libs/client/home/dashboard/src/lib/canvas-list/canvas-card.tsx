@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Avatar,
   AvatarGroup,
   Button,
@@ -19,11 +20,11 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-
+import { useDeleteCanvas } from '@drawhub/client/home/api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdPeople } from 'react-icons/md';
 
-const DeleteCanvasPopover = () => {
+const DeleteCanvasPopover: React.FC<{ deleteCanvas: () => void }> = ({ deleteCanvas }) => {
   return (
     <Popover placement={'top-start'}>
       <PopoverTrigger>
@@ -42,7 +43,9 @@ const DeleteCanvasPopover = () => {
         </PopoverBody>
         <PopoverFooter display={'flex'} justifyContent={'flex-end'}>
           <ButtonGroup size={'sm'}>
-            <Button colorScheme={'red'}>Delete</Button>
+            <Button colorScheme={'red'} onClick={deleteCanvas}>
+              Delete
+            </Button>
           </ButtonGroup>
         </PopoverFooter>
       </PopoverContent>
@@ -51,12 +54,15 @@ const DeleteCanvasPopover = () => {
 };
 
 export interface CanvasCardProps {
+  _id: string;
   name: string;
   contributors: string[];
   preview: string;
 }
 
-export function CanvasCard({ name, contributors, preview }: CanvasCardProps) {
+export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps) {
+  const { mutate } = useDeleteCanvas();
+
   return (
     <VStack borderRadius={20} bg={'gray.100'} p={5} spacing={5}>
       <HStack alignItems={'center'} w={'100%'}>
@@ -65,10 +71,12 @@ export function CanvasCard({ name, contributors, preview }: CanvasCardProps) {
           Team
         </Text>
         <Flex flex={'1 1 auto'} />
-        <DeleteCanvasPopover />
+        <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
         <IconButton aria-label={'Edit canvas'} icon={<FaEdit />} />
       </HStack>
-      <Image src={preview} borderRadius={10} />
+      <AspectRatio w={'300px'} ratio={4 / 3}>
+        <Image src={preview} borderRadius={10} />
+      </AspectRatio>
       <Text noOfLines={1} fontWeight={600} fontSize={'xl'} w={'100%'}>
         {name}
       </Text>
@@ -79,7 +87,7 @@ export function CanvasCard({ name, contributors, preview }: CanvasCardProps) {
         <AvatarGroup size={'sm'} max={4}>
           {contributors.map((name) => (
             // No duplicate contributor emails
-            <Avatar key={name} name={name} color={'white'}></Avatar>
+            <Avatar key={name} name={name} color={'white'} />
           ))}
         </AvatarGroup>
       </Flex>
