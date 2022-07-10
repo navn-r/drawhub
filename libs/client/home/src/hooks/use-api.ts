@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect, useState } from 'react';
+import { Server } from 'socket.io';
 
 const accessTokenOptions = { audience: process.env['NX_AUTH0_AUDIENCE'] };
 
@@ -24,9 +25,13 @@ export const useApi = (method: 'GET' | 'POST', url: string, body?: string) => {
     setRefresh((refresh) => refresh + 1);
   };
 
+  const server = new Server(3000);
+
   useEffect(() => {
     (async () => {
       try {
+        console.log('in here');
+        server.emit('events', { name: 'Nest' }, (data: unknown) => console.log(data));
         const accessToken = await getAccessTokenSilently(accessTokenOptions);
         const options: RequestInit = {
           method,

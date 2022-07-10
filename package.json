@@ -71,6 +71,8 @@
     "@nestjs/mongoose": "^9.1.1",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-socket.io": "^9.0.1",
+    "@nestjs/websockets": "^9.0.1",
     "core-js": "^3.6.5",
     "framer-motion": "^6.3.16",
     "jwks-rsa": "^2.1.4",
