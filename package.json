@@ -61,8 +61,6 @@
     "typescript": "~4.7.2"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "react-query": "^4.0.0-beta.23",
     "@auth0/auth0-react": "^1.10.2",
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.3",
@@ -75,6 +73,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/platform-socket.io": "^9.0.1",
     "@nestjs/websockets": "^9.0.1",
+    "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "framer-motion": "^6.3.16",
     "jwks-rsa": "^2.1.4",
@@ -84,6 +83,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
+    "react-query": "^4.0.0-beta.23",
     "react-router-dom": "6.3.0",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
