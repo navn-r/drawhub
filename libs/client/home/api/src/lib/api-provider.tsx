@@ -31,6 +31,8 @@ export function ApiProvider({ children }: ApiProviderProps) {
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
+    let interceptor: number;
+
     (async () => {
       /**
        * The action of adding the interceptor to the request stack
@@ -39,7 +41,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
        *
        * SO SOMETIMES IT WORKS AND SOMETIMES IT DOESN'T!
        */
-      axios.interceptors.request.use(
+      interceptor = axios.interceptors.request.use(
         async (config) => {
           if (config) {
             const accessToken = await getAccessTokenSilently({
@@ -64,6 +66,13 @@ export function ApiProvider({ children }: ApiProviderProps) {
       await new Promise((res) => setTimeout(res, 1000));
       setLoading(false);
     })();
+
+    // eject interceptor on unMount
+    return () => {
+      if (interceptor !== null || interceptor !== undefined) {
+        axios.interceptors.request.eject(interceptor);
+      }
+    };
   }, [getAccessTokenSilently]);
 
   return (
