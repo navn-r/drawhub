@@ -5,7 +5,11 @@ import { Server } from 'socket.io';
 /**
  * @see https://docs.nestjs.com/websockets/gateways
  */
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class CanvasEventsGateway implements OnGatewayInit {
   /**
    * Send message to every client can be used using `server`
@@ -22,7 +26,6 @@ export class CanvasEventsGateway implements OnGatewayInit {
 
   @SubscribeMessage('example-event')
   doSomething(@MessageBody() data: unknown): unknown {
-    console.log('In Subscribe message');
     return data;
   }
 }
