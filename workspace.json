@@ -6,6 +6,7 @@
     "client-credits": "libs/client/credits",
     "client-home-api": "libs/client/home/api",
     "client-home-dashboard": "libs/client/home/dashboard",
+    "client-home-draw": "libs/client/home/draw",
     "client-home-shell": "libs/client/home/shell",
     "client-landing": "libs/client/landing",
     "client-ui": "libs/client/ui",

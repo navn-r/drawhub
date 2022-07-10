@@ -1,6 +1,7 @@
 import { Grid } from '@chakra-ui/react';
 import { ApiProvider } from '@drawhub/client/home/api';
 import { ClientHomeDashboard } from '@drawhub/client/home/dashboard';
+import { ClientHomeDraw } from '@drawhub/client/home/draw';
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from './sidebar/sidebar';
 
@@ -27,6 +28,7 @@ export function ClientHomeShell(props: ClientHomeProps) {
         <Sidebar />
         <Routes>
           <Route path="/" element={<ClientHomeDashboard />} />
+          <Route path="/draw/:canvasId" element={<ClientHomeDraw />} />
         </Routes>
       </Grid>
     </ApiProvider>

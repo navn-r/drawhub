@@ -16,12 +16,14 @@ import {
 import { useCreateCanvas } from '@drawhub/client/home/api';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface CreateCanvasButtonProps {}
 
 export function CreateCanvasButton(props: CreateCanvasButtonProps) {
   const { user } = useAuth0();
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutateAsync, isLoading } = useCreateCanvas();
   const [name, setName] = useState('');
@@ -31,8 +33,8 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
   };
 
   const createCanvas = async () => {
-    await mutateAsync({ name: name.trim() });
-    onClose();
+    const { _id: canvasId } = await mutateAsync({ name: name.trim() });
+    navigate('draw/' + canvasId);
   };
 
   return (
