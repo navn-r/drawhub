@@ -5,11 +5,7 @@ import { Server } from 'socket.io';
 /**
  * @see https://docs.nestjs.com/websockets/gateways
  */
-@WebSocketGateway({
-  cors: {
-    origin: '*',
-  },
-})
+@WebSocketGateway()
 export class CanvasEventsGateway implements OnGatewayInit {
   /**
    * Send message to every client can be used using `server`
