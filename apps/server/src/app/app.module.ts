@@ -1,10 +1,10 @@
+import { ServerAuthModule } from '@drawhub/server/auth';
+import { ServerCanvasModule } from '@drawhub/server/canvas';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-
-import { ServerAuthModule } from '@drawhub/server/auth';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -16,6 +16,7 @@ import { ServerAuthModule } from '@drawhub/server/auth';
       inject: [ConfigService],
     }),
     ServerAuthModule,
+    ServerCanvasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
