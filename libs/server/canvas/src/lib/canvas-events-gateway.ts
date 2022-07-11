@@ -22,6 +22,10 @@ export class CanvasEventsGateway implements OnGatewayInit {
 
   @SubscribeMessage('example-event')
   doSomething(@MessageBody() data: unknown): unknown {
+    this.logger.log(data);
+
+    // TODO: Investigate what returning does vs. emitting ourselves
+    this.server.emit('example-event', data);
     return data;
   }
 }

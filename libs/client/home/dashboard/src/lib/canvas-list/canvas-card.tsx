@@ -23,6 +23,7 @@ import {
 import { useDeleteCanvas } from '@drawhub/client/home/api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdPeople } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteCanvasPopover: React.FC<{ deleteCanvas: () => void }> = ({ deleteCanvas }) => {
   return (
@@ -61,6 +62,7 @@ export interface CanvasCardProps {
 }
 
 export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps) {
+  const navigate = useNavigate();
   const { mutate } = useDeleteCanvas();
 
   return (
@@ -81,8 +83,8 @@ export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps
         {name}
       </Text>
       <Flex justify={'space-between'} w={'100%'} alignItems={'center'}>
-        <Button borderRadius={5} size={'xs'} colorScheme={'green'}>
-          Design
+        <Button onClick={() => navigate('draw/' + _id)} borderRadius={5} size={'xs'} colorScheme={'green'}>
+          Draw
         </Button>
         <AvatarGroup size={'sm'} max={4}>
           {contributors.map((name) => (
