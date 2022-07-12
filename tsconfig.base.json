@@ -23,7 +23,8 @@
       "@drawhub/client/landing": ["libs/client/landing/src/index.ts"],
       "@drawhub/client/ui": ["libs/client/ui/src/index.ts"],
       "@drawhub/server/auth": ["libs/server/auth/src/index.ts"],
-      "@drawhub/server/canvas": ["libs/server/canvas/src/index.ts"]
+      "@drawhub/server/canvas": ["libs/server/canvas/src/index.ts"],
+      "@drawhub/server/upload": ["libs/server/upload/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

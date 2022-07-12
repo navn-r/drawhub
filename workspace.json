@@ -12,6 +12,7 @@
     "client-ui": "libs/client/ui",
     "server": "apps/server",
     "server-auth": "libs/server/auth",
-    "server-canvas": "libs/server/canvas"
+    "server-canvas": "libs/server/canvas",
+    "server-upload": "libs/server/upload"
   }
 }
