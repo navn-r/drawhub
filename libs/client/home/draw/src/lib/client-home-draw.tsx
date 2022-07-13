@@ -1,6 +1,7 @@
 import { Box, Code, Flex, Heading, Text } from '@chakra-ui/react';
 import { useSocket } from '@drawhub/client/home/api';
 import { useParams } from 'react-router-dom';
+import CanvasBoard from './canvas-board/canvas-board';
 
 /* eslint-disable-next-line */
 export interface ClientHomeDrawProps {}
@@ -15,6 +16,7 @@ export function ClientHomeDraw(props: ClientHomeDrawProps) {
         <Heading>Draw</Heading>
       </Flex>
       Data: <Code as={'pre'}>{canvasId}</Code>
+      <CanvasBoard width={1250} height={800}></CanvasBoard>
       <Text>Connection: {JSON.stringify(isConnected)}</Text>
     </Box>
   );
