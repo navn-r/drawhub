@@ -1,10 +1,12 @@
 import { Box, VStack } from '@chakra-ui/react';
+import { useSocket } from '@drawhub/client/home/api';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CanvasInput from './canvas-input';
 
 export interface CanvasBoardProps {
   width: number;
   height: number;
+  canvasId: string;
 }
 
 type Coordinate = {
@@ -12,12 +14,13 @@ type Coordinate = {
   y: number;
 };
 
-export function CanvasBoard({ width, height }: CanvasBoardProps) {
+export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isPainting, setIsPainting] = useState(false);
   const [brushColor, setBrushColor] = useState('black');
-  const [brushSize, setBrushSize] = useState(1);
+  const [brushSize, setBrushSize] = useState(10);
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>();
+  const { socket, send } = useSocket(canvasId);
 
   const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
     if (!canvasRef.current) {
@@ -48,7 +51,7 @@ export function CanvasBoard({ width, height }: CanvasBoardProps) {
   }, [setCoordinates]);
 
   const drawLine = useCallback(
-    (originalMousePosition: Coordinate, newMousePosition: Coordinate) => {
+    (originalMousePosition: Coordinate, newMousePosition: Coordinate, brushColor: string, brushSize: number) => {
       if (!canvasRef.current) {
         return;
       }
@@ -66,7 +69,7 @@ export function CanvasBoard({ width, height }: CanvasBoardProps) {
         context.stroke();
       }
     },
-    [brushColor, brushSize]
+    []
   );
 
   const paint = useCallback(
@@ -75,12 +78,18 @@ export function CanvasBoard({ width, height }: CanvasBoardProps) {
         const newMousePosition = getCoordinates(event);
 
         if (mousePosition && newMousePosition) {
-          drawLine(mousePosition, newMousePosition);
+          drawLine(mousePosition, newMousePosition, brushColor, brushSize);
+          send('send-draw', {
+            start: mousePosition,
+            end: newMousePosition,
+            brushColor,
+            brushSize,
+          });
           setMousePosition(newMousePosition);
         }
       }
     },
-    [isPainting, mousePosition, drawLine]
+    [isPainting, mousePosition, drawLine, send, brushColor, brushSize]
   );
 
   useEffect(() => {
@@ -111,13 +120,35 @@ export function CanvasBoard({ width, height }: CanvasBoardProps) {
     };
   }, [exitPaint]);
 
-  const clearCanvas = useCallback(() => {
+  const resetCanvas = useCallback(() => {
     if (!canvasRef.current) {
       return;
     }
 
     canvasRef.current.getContext('2d')?.clearRect(0, 0, width, height);
-  }, [height, width]);
+  }, [width, height]);
+
+  const clearCanvas = useCallback(() => {
+    send('send-clear', {});
+    resetCanvas();
+  }, [send, resetCanvas]);
+
+  useEffect(() => {
+    if (socket?.hasListeners('recieve-draw') || socket?.hasListeners('recieve-clear')) {
+      return;
+    }
+
+    socket?.on('recieve-draw', ({ start, end, brushColor, brushSize }) => {
+      drawLine(start, end, brushColor, brushSize);
+    });
+
+    socket?.on('recieve-clear', () => resetCanvas());
+
+    return () => {
+      socket?.removeAllListeners('recieve-draw');
+      socket?.removeAllListeners('recieve-clear');
+    };
+  }, [drawLine, socket, resetCanvas]);
 
   return (
     <VStack spacing={5}>

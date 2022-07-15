@@ -1,47 +1,69 @@
-import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-
-const socket = io();
+import { useAuth0 } from '@auth0/auth0-react';
+import { useCallback, useEffect, useState } from 'react';
+import io, { Socket } from 'socket.io-client';
 
 /**
  * @see https://socket.io/how-to/use-with-react-hooks
  */
-export function useSocket(event: string) {
-  const [isConnected, setIsConnected] = useState(socket.connected);
+export function useSocket(canvasId: string) {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const { user } = useAuth0();
 
   useEffect(() => {
-    // React 18 double useEffect shenanigans
-    if (socket.hasListeners(event)) {
+    setSocket(io());
+
+    return () => {
+      setSocket((socket) => {
+        socket?.disconnect();
+        return null;
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    socket?.emit('join-room', { canvasId, email: user?.email });
+
+    return () => {
+      socket?.emit('leave-room', { canvasId, email: user?.email });
+    };
+  }, [canvasId, socket, user?.email]);
+
+  useEffect(() => {
+    // In case of double useEffect run
+    if (socket?.hasListeners('joined-room') || socket?.hasListeners('left-room')) {
       return;
     }
 
-    console.info('USE EFFECT');
-
-    socket.on('connect', () => {
-      setIsConnected(true);
+    socket?.on('joined-room', (email: string) => {
+      console.info(`ROOM JOINED <${email}>`);
     });
 
-    socket.on('disconnect', () => {
-      setIsConnected(false);
-    });
-
-    socket.on(event, (data) => {
-      // TODO: ADD EVENT HANDLER
-      console.log(data);
+    socket?.on('left-room', (email: string) => {
+      console.info(`ROOM LEFT <${email}>`);
     });
 
     return () => {
-      socket.off('connect');
-      socket.off('disconnect');
+      socket?.removeAllListeners('joined-room');
+      socket?.removeAllListeners('left-room');
     };
-  }, [event]);
+  }, [socket]);
 
-  const send = (data: unknown) => {
-    socket.emit(event, data);
-  };
+  const send = useCallback(
+    (event: string, data: unknown) => {
+      if (!socket) {
+        return;
+      }
+
+      socket.emit(event, {
+        canvasId,
+        data,
+      });
+    },
+    [canvasId, socket]
+  );
 
   return {
-    isConnected,
+    socket,
     send,
   };
 }
