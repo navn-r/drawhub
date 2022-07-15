@@ -1,6 +1,16 @@
 import { useCallback } from 'react';
 import { useRef, useEffect, useState } from 'react';
-import { Box, Flex, Input, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Input,
+  Button,
+  Spacer,
+  Slider,
+  SliderTrack,
+  SliderThumb,
+  SliderFilledTrack,
+} from '@chakra-ui/react';
 
 /* eslint-disable-next-line */
 export interface CanvasBoardProps {
@@ -112,36 +122,58 @@ export function CanvasBoard(props: CanvasBoardProps) {
     };
   }, [exitPaint]);
 
+  const clearCanvas = () => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas = canvasRef.current;
+    canvas.getContext('2d')?.clearRect(0, 0, props.width, props.height);
+  };
+
   return (
-    <Box w={'100%'}>
+    <Flex direction="column" align="center" justify="center">
       <h1>Welcome to CanvasBoard!</h1>
-      <Box borderWidth="1px" borderRadius="lg" width={props.width} height={props.height}>
+      <Box borderWidth="3px" borderColor="black" borderRadius="lg">
+        {/* style={{paddingLeft:"0.5px", paddingTop: "1px"}} */}
         <canvas ref={canvasRef} width={props.width} height={props.height} />
       </Box>
 
-      <Flex>
-        <Button onClick={() => setColor('#FFFFFF')} colorScheme="red">
+      <Flex marginTop="10px" w="70%">
+        <Button w="10%" colorScheme="red" onClick={() => setColor('#FFFFFF')}>
           Eraser
         </Button>
 
+        <Spacer />
+        {/* w="10%" */}
         <Input
+          w="10%"
           onChange={(event) => {
             setColor(event.target.value);
           }}
           type="color"
-        ></Input>
-
-        <Input
-          defaultValue={'1'}
-          onChange={(event) => {
-            setWidth(parseInt(event.target.value));
+        />
+        <Spacer />
+        <Slider
+          w="30%"
+          min={1}
+          max={50}
+          defaultValue={1}
+          onChange={(val) => {
+            setWidth(val);
           }}
-          type="range"
-          min="1"
-          max="50"
-        ></Input>
+        >
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
+
+        <Spacer />
+        <Button w="10%" colorScheme="red" onClick={clearCanvas}>
+          Clear
+        </Button>
       </Flex>
-    </Box>
+    </Flex>
   );
 }
 
