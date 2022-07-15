@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useRef, useEffect, useState } from 'react';
-import { ReactQueryDevtoolsPanel } from 'react-query/devtools';
-import { Box, Code, Flex, Heading, Text } from '@chakra-ui/react';
-import { PhotoshopPicker } from 'react-color';
+import { Box, Flex } from '@chakra-ui/react';
 
 /* eslint-disable-next-line */
 export interface CanvasBoardProps {
@@ -119,12 +117,6 @@ export function CanvasBoard(props: CanvasBoardProps) {
       </Box>
 
       <Flex>
-        <PhotoshopPicker
-          color={color}
-          onChangeComplete={(color) => {
-            setColor(color.hex);
-          }}
-        />
         <Box
           onClick={() => setColor('#FFFFFF')}
           rounded="2xl"
