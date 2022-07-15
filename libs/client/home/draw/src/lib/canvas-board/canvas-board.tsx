@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useRef, useEffect, useState } from 'react';
-import { Box, Flex, Button, Input } from '@chakra-ui/react';
+import { Box, Flex, Input, Button } from '@chakra-ui/react';
 
 /* eslint-disable-next-line */
 export interface CanvasBoardProps {
