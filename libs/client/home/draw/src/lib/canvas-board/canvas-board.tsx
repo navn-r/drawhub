@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useRef, useEffect, useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Button, Input } from '@chakra-ui/react';
 
 /* eslint-disable-next-line */
 export interface CanvasBoardProps {
@@ -16,9 +16,9 @@ type Coordinate = {
 export function CanvasBoard(props: CanvasBoardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isPainting, setIsPainting] = useState(false);
-  const [color, setColor] = useState('red');
+  const [color, setColor] = useState('black');
   const [width, setWidth] = useState(1);
-  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(undefined);
+  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>();
 
   const drawOnCanvas = useCallback((event: MouseEvent) => {
     const coordinates = getCoordinates(event);
@@ -48,6 +48,29 @@ export function CanvasBoard(props: CanvasBoardProps) {
     };
   }, [drawOnCanvas]);
 
+  const drawLine = useCallback(
+    (originalMousePosition: Coordinate, newMousePosition: Coordinate) => {
+      if (!canvasRef.current) {
+        return;
+      }
+      const canvas: HTMLCanvasElement = canvasRef.current;
+      console.log('HERE.');
+      const context = canvas.getContext('2d');
+      if (context) {
+        context.strokeStyle = color;
+        context.lineJoin = 'round';
+        context.lineWidth = width;
+
+        context.beginPath();
+        context.moveTo(originalMousePosition.x, originalMousePosition.y);
+        context.lineTo(newMousePosition.x, newMousePosition.y);
+        context.closePath();
+        context.stroke();
+      }
+    },
+    [color, width]
+  );
+
   const paint = useCallback(
     (event: MouseEvent) => {
       if (isPainting) {
@@ -58,28 +81,8 @@ export function CanvasBoard(props: CanvasBoardProps) {
         }
       }
     },
-    [isPainting, mousePosition, color, width]
+    [isPainting, mousePosition, drawLine]
   );
-
-  const drawLine = (originalMousePosition: Coordinate, newMousePosition: Coordinate) => {
-    if (!canvasRef.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    const context = canvas.getContext('2d');
-    if (context) {
-      context.strokeStyle = color;
-      context.lineJoin = 'round';
-      context.lineWidth = width;
-
-      context.beginPath();
-      context.moveTo(originalMousePosition.x, originalMousePosition.y);
-      context.lineTo(newMousePosition.x, newMousePosition.y);
-      context.closePath();
-
-      context.stroke();
-    }
-  };
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -117,30 +120,18 @@ export function CanvasBoard(props: CanvasBoardProps) {
       </Box>
 
       <Flex>
-        <Box
-          onClick={() => setColor('#FFFFFF')}
-          rounded="2xl"
-          bg="red.50"
-          boxShadow="md"
-          border="1px"
-          px="8px"
-          height="30px"
-          width="70px"
-          fontSize="14px"
-          fontWeight="semibold"
-          borderColor="#ccd0d5"
-          _hover={{ bg: 'red.100' }}
-        >
+        <Button onClick={() => setColor('#FFFFFF')} colorScheme="red">
           Eraser
-        </Box>
+        </Button>
 
-        <input
+        <Input
           onChange={(event) => {
             setColor(event.target.value);
           }}
           type="color"
-        ></input>
-        <input
+        ></Input>
+
+        <Input
           defaultValue={'1'}
           onChange={(event) => {
             setWidth(parseInt(event.target.value));
@@ -148,7 +139,7 @@ export function CanvasBoard(props: CanvasBoardProps) {
           type="range"
           min="1"
           max="50"
-        ></input>
+        ></Input>
       </Flex>
     </Box>
   );
