@@ -16,8 +16,8 @@ export function ClientHomeDraw(props: ClientHomeDrawProps) {
         <Heading>Draw</Heading>
       </Flex>
       Data: <Code as={'pre'}>{canvasId}</Code>
-      <CanvasBoard width={1250} height={800}></CanvasBoard>
       <Text>Connection: {JSON.stringify(isConnected)}</Text>
+      <CanvasBoard width={1250} height={800}></CanvasBoard>
     </Box>
   );
 }
