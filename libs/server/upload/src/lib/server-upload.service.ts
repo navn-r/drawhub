@@ -25,4 +25,12 @@ export class ServerUploadService {
     };
     return s3.putObject(params).promise();
   }
+
+  async deleteImage(canvasId: string) {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: canvasId + '.png',
+    };
+    return s3.deleteObject(params).promise();
+  }
 }
