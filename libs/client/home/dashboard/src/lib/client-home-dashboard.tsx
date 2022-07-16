@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Img } from '@chakra-ui/react';
 import CreateCanvasButton from './create-canvas-button/create-canvas-button';
 
 /* eslint-disable-next-line */
@@ -12,7 +12,7 @@ export function ClientHomeDashboard(props: ClientHomeDashboardProps) {
         <CreateCanvasButton />
       </Flex>
       <Heading size={'xs'} as={'h5'} fontWeight={600} color={'gray.600'}>
-        MY CANVASSES
+        <Img src="https://drawhub.s3.amazonaws.com/this.png"></Img>
       </Heading>
     </Box>
   );
