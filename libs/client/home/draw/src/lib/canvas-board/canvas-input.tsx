@@ -10,13 +10,14 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react';
-import { FaEraser, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import { FaEraser, FaPencilAlt, FaTrashAlt, FaUpload } from 'react-icons/fa';
 
 export interface CanvasInputProps {
   width: number;
   clearCanvas: () => void;
   setBrushColor: Dispatch<SetStateAction<string>>;
   setBrushSize: Dispatch<SetStateAction<number>>;
+  uploadImage: (image: ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -49,7 +50,7 @@ const COLORS = [
   '#63300D',
 ];
 
-export function CanvasInput({ width, setBrushColor, setBrushSize, clearCanvas }: CanvasInputProps) {
+export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, clearCanvas }: CanvasInputProps) {
   const colorPickerRef = useRef<HTMLInputElement>(null);
 
   const setColor = useCallback(
@@ -113,6 +114,8 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, clearCanvas }:
         icon={<FaTrashAlt />}
         aria-label={'Clear canvas'}
       />
+
+      <Input type="file" w={100} h={8} padding={0} onChange={(e) => uploadImage(e)}></Input>
     </HStack>
   );
 }

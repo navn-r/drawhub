@@ -1,6 +1,6 @@
 import { Box, VStack } from '@chakra-ui/react';
 import { useSocket } from '@drawhub/client/home/api';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import CanvasInput from './canvas-input';
 
 export interface CanvasBoardProps {
@@ -37,6 +37,19 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
       setMousePosition(coordinates);
     }
   }, []);
+
+  const uploadImage = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files;
+    if (!file || !file[0]) {
+      return;
+    }
+    const canvas = canvasRef.current;
+    const img = new Image();
+    img.src = URL.createObjectURL(file[0]);
+    img.onload = function () {
+      canvas?.getContext('2d')?.drawImage(img, 0, 0, img.width, img.height);
+    };
+  };
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -155,7 +168,13 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
       <Box borderWidth={'thick'} borderColor={'gray.500'} borderRadius={5}>
         <canvas ref={canvasRef} width={width} height={height} />
       </Box>
-      <CanvasInput width={width} setBrushColor={setBrushColor} setBrushSize={setBrushSize} clearCanvas={clearCanvas} />
+      <CanvasInput
+        width={width}
+        setBrushColor={setBrushColor}
+        setBrushSize={setBrushSize}
+        uploadImage={uploadImage}
+        clearCanvas={clearCanvas}
+      />
     </VStack>
   );
 }
