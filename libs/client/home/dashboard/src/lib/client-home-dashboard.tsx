@@ -1,6 +1,6 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import CreateCanvasButton from './create-canvas-button/create-canvas-button';
 import { CanvasList } from './canvas-list/canvas-list';
+import CreateCanvasButton from './create-canvas-button/create-canvas-button';
 
 /* eslint-disable-next-line */
 export interface ClientHomeDashboardProps {}
