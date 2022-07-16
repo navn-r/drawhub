@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Req, Delete, Param } from '@nestjs/common';
 import { CanvasService } from './server-canvas.service';
 import { Canvas, CreateCanvasDto } from './canvas.schema';
 import { AuthGuard } from '@nestjs/passport';
@@ -20,5 +20,10 @@ export class ServerCanvasController {
   @Get()
   getAllCanvas(): Promise<Canvas[]> {
     return this.canvasService.getAllCanvas();
+  }
+
+  @Delete('/:canvasId')
+  deleteCanvas(@Param('canvasId') canvasId: string) {
+    return this.canvasService.deleteCanvas(canvasId);
   }
 }

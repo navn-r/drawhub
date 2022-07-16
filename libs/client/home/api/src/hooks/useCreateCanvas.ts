@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 // TODO: Change to Canvas type once shared lib is created
 const createCanvas = async (canvas: { name: string }) => {
@@ -8,7 +8,13 @@ const createCanvas = async (canvas: { name: string }) => {
 };
 
 export function useCreateCanvas() {
-  return useMutation(createCanvas);
+  const queryClient = useQueryClient();
+
+  return useMutation(createCanvas, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['canvas']);
+    },
+  });
 }
 
 export default useCreateCanvas;
