@@ -1,8 +1,9 @@
-import { Controller, Delete, Get, Param, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { ServerUploadService } from './server-upload.service';
+import { Controller, Delete, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { get } from 'http';
+import { ServerUploadService } from './server-upload.service';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('upload')
 export class ServerUploadController {
   constructor(private serverUploadService: ServerUploadService) {}
