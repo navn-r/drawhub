@@ -3,7 +3,6 @@
   "version": 2,
   "projects": {
     "client": "apps/client",
-    "client-credits": "libs/client/credits",
     "client-home-api": "libs/client/home/api",
     "client-home-dashboard": "libs/client/home/dashboard",
     "client-home-draw": "libs/client/home/draw",

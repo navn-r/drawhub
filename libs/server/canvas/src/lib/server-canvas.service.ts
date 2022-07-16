@@ -17,4 +17,8 @@ export class CanvasService {
   getAllCanvas(): Promise<Canvas[]> {
     return this.model.find().exec();
   }
+
+  deleteCanvas(canvasId: string) {
+    return this.model.findByIdAndDelete(canvasId);
+  }
 }
