@@ -21,4 +21,13 @@ export class CanvasService {
   deleteCanvas(canvasId: string) {
     return this.model.findByIdAndDelete(canvasId);
   }
+
+  async addContributor(canvasId: string, email: string) {
+    const lmao = await this.model.find({ _id: canvasId, contributors: { $in: [email] } });
+    if (lmao.length) {
+      return;
+    }
+
+    return this.model.findByIdAndUpdate(canvasId, { $push: { contributors: email } });
+  }
 }

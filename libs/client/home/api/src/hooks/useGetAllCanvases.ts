@@ -15,7 +15,9 @@ const query = async () => {
 };
 
 export function useGetAllCanvases() {
-  return useQuery<Canvas[]>(['canvas'], query);
+  return useQuery<Canvas[]>(['canvas'], query, {
+    refetchOnMount: true,
+  });
 }
 
 export default useGetAllCanvases;

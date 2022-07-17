@@ -10,7 +10,7 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react';
-import { FaEraser, FaPencilAlt, FaTrashAlt, FaUpload } from 'react-icons/fa';
+import { FaEraser, FaFileImage, FaPencilAlt, FaSave, FaTrashAlt } from 'react-icons/fa';
 
 export interface CanvasInputProps {
   width: number;
@@ -18,6 +18,8 @@ export interface CanvasInputProps {
   setBrushColor: Dispatch<SetStateAction<string>>;
   setBrushSize: Dispatch<SetStateAction<number>>;
   uploadImage: (image: ChangeEvent<HTMLInputElement>) => void;
+  saveCanvas: () => void;
+  isSaveLoading: boolean;
 }
 
 /**
@@ -50,8 +52,17 @@ const COLORS = [
   '#63300D',
 ];
 
-export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, clearCanvas }: CanvasInputProps) {
+export function CanvasInput({
+  width,
+  setBrushColor,
+  setBrushSize,
+  uploadImage,
+  clearCanvas,
+  saveCanvas,
+  isSaveLoading,
+}: CanvasInputProps) {
   const colorPickerRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const setColor = useCallback(
     (color: string) => {
@@ -65,7 +76,7 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
     [setBrushColor]
   );
 
-  useEffect(() => console.log('render'), [clearCanvas]);
+  useEffect(() => console.log('render'), [uploadImage]);
 
   return (
     <HStack spacing={10} w={width + 11} bg={'gray.100'} p={5} borderRadius={5} justify={'center'}>
@@ -94,7 +105,7 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
       <Slider
         min={1}
         max={50}
-        defaultValue={1}
+        defaultValue={10}
         w={'30%'}
         onChangeEnd={(val: SetStateAction<number>) => setBrushSize(val)}
       >
@@ -107,6 +118,7 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
           <Box boxSize={4} color={'gray.500'} as={FaPencilAlt} />
         </SliderThumb>
       </Slider>
+
       <IconButton
         colorScheme={'red'}
         onClick={clearCanvas}
@@ -114,8 +126,22 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
         icon={<FaTrashAlt />}
         aria-label={'Clear canvas'}
       />
-
-      <Input type="file" w={100} h={8} padding={0} onChange={(e) => uploadImage(e)}></Input>
+      <IconButton
+        colorScheme={'green'}
+        onClick={() => fileInputRef?.current?.click()}
+        size={'lg'}
+        icon={<FaFileImage />}
+        aria-label={'Image upload'}
+      />
+      <IconButton
+        colorScheme={'twitter'}
+        onClick={saveCanvas}
+        size={'lg'}
+        icon={<FaSave />}
+        isLoading={isSaveLoading}
+        aria-label={'Save canvas'}
+      />
+      <Input type="file" ref={fileInputRef} display={'none'} onChange={uploadImage} />
     </HStack>
   );
 }

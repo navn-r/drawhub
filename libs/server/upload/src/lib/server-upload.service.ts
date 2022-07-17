@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-
-/* Even though typescript is complaining (its shit), we need it for implicit usage */
-import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as dotenv from 'dotenv';
+
+/* Needed it for implicit usage */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as multer from 'multer';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ export class ServerUploadService {
       Body: file.buffer,
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: canvasId + '.png',
+      ContentType: 'image/png',
     };
     return s3.putObject(params).promise();
   }
@@ -32,5 +34,20 @@ export class ServerUploadService {
       Key: canvasId + '.png',
     };
     return s3.deleteObject(params).promise();
+  }
+
+  async getImage(canvasId: string) {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: canvasId + '.png',
+    };
+
+    // New canvasses will not have an s3 object until saved
+    // This prevents server side error, needs to be handled
+    try {
+      return await s3.getObject(params).promise();
+    } catch (e) {
+      /* FIXME */
+    }
   }
 }

@@ -25,11 +25,14 @@ export function CanvasList() {
       {isLoading || isRefetching ? (
         <CanvasSkeletonList />
       ) : (
-        data?.map((canvas) => (
-          <WrapItem key={canvas._id}>
-            <CanvasCard {...canvas} preview={'https://skribbl.io/res/background.png'} />
-          </WrapItem>
-        ))
+        data?.map((canvas) => {
+          const preview = process.env['NX_AWS_URL'] + canvas._id + '.png?dummy=' + Date.now();
+          return (
+            <WrapItem key={canvas._id}>
+              <CanvasCard {...canvas} preview={preview} />
+            </WrapItem>
+          );
+        })
       )}
     </Wrap>
   );
