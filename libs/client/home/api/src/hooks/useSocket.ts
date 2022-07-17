@@ -35,11 +35,11 @@ export function useSocket(canvasId: string) {
     }
 
     socket?.on('joined-room', (email: string) => {
-      console.info(`ROOM JOINED <${email}>`);
+      console.info(`[WS] ROOM JOINED <${email}>`);
     });
 
     socket?.on('left-room', (email: string) => {
-      console.info(`ROOM LEFT <${email}>`);
+      console.info(`[WS] ROOM LEFT <${email}>`);
     });
 
     return () => {

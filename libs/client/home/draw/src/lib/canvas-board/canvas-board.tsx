@@ -38,19 +38,6 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
     }
   }, []);
 
-  const uploadImage = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files;
-    if (!file || !file[0]) {
-      return;
-    }
-    const canvas = canvasRef.current;
-    const img = new Image();
-    img.src = URL.createObjectURL(file[0]);
-    img.onload = function () {
-      canvas?.getContext('2d')?.drawImage(img, 0, 0, img.width, img.height);
-    };
-  };
-
   useEffect(() => {
     if (!canvasRef.current) {
       return;
@@ -146,22 +133,71 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
     resetCanvas();
   }, [send, resetCanvas]);
 
+  const paintImage = useCallback((file: ArrayBuffer, cb?: () => void) => {
+    const canvas = canvasRef.current;
+    const img = new Image();
+    const blob = new Blob([file], { type: 'application/image' });
+    img.src = URL.createObjectURL(blob);
+    img.onload = () => {
+      canvas?.getContext('2d')?.drawImage(img, 0, 0);
+      cb?.();
+    };
+  }, []);
+
+  /**
+   * @see https://stackoverflow.com/a/59224495
+   */
+  const uploadImage = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (!files || !files[0]) {
+        return;
+      }
+
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const rawData = e.target?.result as ArrayBuffer;
+
+        if (!rawData) {
+          return;
+        }
+
+        paintImage(rawData, () =>
+          send('send-image', {
+            file: rawData,
+          })
+        );
+      };
+
+      reader.readAsArrayBuffer(file);
+    },
+    [paintImage, send]
+  );
+
   useEffect(() => {
-    if (socket?.hasListeners('recieve-draw') || socket?.hasListeners('recieve-clear')) {
+    if (
+      socket?.hasListeners('receive-draw') ||
+      socket?.hasListeners('receive-clear') ||
+      socket?.hasListeners('receive-image')
+    ) {
       return;
     }
 
-    socket?.on('recieve-draw', ({ start, end, brushColor, brushSize }) => {
+    socket?.on('receive-draw', ({ start, end, brushColor, brushSize }) => {
       drawLine(start, end, brushColor, brushSize);
     });
 
-    socket?.on('recieve-clear', () => resetCanvas());
+    socket?.on('receive-clear', () => resetCanvas());
+    socket?.on('receive-image', ({ file }) => paintImage(file));
 
     return () => {
-      socket?.removeAllListeners('recieve-draw');
-      socket?.removeAllListeners('recieve-clear');
+      socket?.removeAllListeners('receive-draw');
+      socket?.removeAllListeners('receive-clear');
+      socket?.removeAllListeners('receive-image');
     };
-  }, [drawLine, socket, resetCanvas]);
+  }, [drawLine, socket, resetCanvas, paintImage]);
 
   return (
     <VStack spacing={5}>

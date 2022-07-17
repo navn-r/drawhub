@@ -10,7 +10,7 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react';
-import { FaEraser, FaPencilAlt, FaTrashAlt, FaUpload } from 'react-icons/fa';
+import { FaEraser, FaFileAlt, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 export interface CanvasInputProps {
   width: number;
@@ -52,6 +52,7 @@ const COLORS = [
 
 export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, clearCanvas }: CanvasInputProps) {
   const colorPickerRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const setColor = useCallback(
     (color: string) => {
@@ -65,7 +66,7 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
     [setBrushColor]
   );
 
-  useEffect(() => console.log('render'), [clearCanvas]);
+  useEffect(() => console.log('render'), [uploadImage]);
 
   return (
     <HStack spacing={10} w={width + 11} bg={'gray.100'} p={5} borderRadius={5} justify={'center'}>
@@ -107,6 +108,7 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
           <Box boxSize={4} color={'gray.500'} as={FaPencilAlt} />
         </SliderThumb>
       </Slider>
+
       <IconButton
         colorScheme={'red'}
         onClick={clearCanvas}
@@ -114,8 +116,14 @@ export function CanvasInput({ width, setBrushColor, setBrushSize, uploadImage, c
         icon={<FaTrashAlt />}
         aria-label={'Clear canvas'}
       />
-
-      <Input type="file" w={100} h={8} padding={0} onChange={(e) => uploadImage(e)}></Input>
+      <IconButton
+        colorScheme={'red'}
+        onClick={() => fileInputRef?.current?.click()}
+        size={'lg'}
+        icon={<FaFileAlt />}
+        aria-label={'File upload'}
+      />
+      <Input type="file" ref={fileInputRef} display={'none'} onChange={uploadImage} />
     </HStack>
   );
 }
