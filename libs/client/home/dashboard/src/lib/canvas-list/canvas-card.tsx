@@ -2,6 +2,7 @@ import {
   AspectRatio,
   Avatar,
   AvatarGroup,
+  Badge,
   Button,
   ButtonGroup,
   Flex,
@@ -21,6 +22,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useDeleteCanvas } from '@drawhub/client/home/api';
+import { useRef, useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -64,6 +66,8 @@ export interface CanvasCardProps {
 export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps) {
   const navigate = useNavigate();
   const { mutate } = useDeleteCanvas();
+  const [showNewBadge, setShowNewBadge] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   return (
     <VStack borderRadius={20} bg={'gray.100'} p={5} spacing={5}>
@@ -73,11 +77,27 @@ export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps
           Team
         </Text>
         <Flex flex={'1 1 auto'} />
+        {showNewBadge ? (
+          <Badge fontSize={'sm'} colorScheme={'green'}>
+            NEW
+          </Badge>
+        ) : null}
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
         <IconButton aria-label={'Edit canvas'} icon={<FaEdit />} />
       </HStack>
-      <AspectRatio w={'300px'} ratio={4 / 3}>
-        <Image src={preview} borderRadius={10} />
+      <AspectRatio w={'300px'} ratio={1250 / 800}>
+        <Image
+          ref={imageRef}
+          src={preview}
+          borderRadius={10}
+          backgroundColor={'white'}
+          onError={() => {
+            if (imageRef.current) {
+              imageRef.current.src = 'https://skribbl.io/res/background.png';
+              setShowNewBadge(true);
+            }
+          }}
+        />
       </AspectRatio>
       <Text noOfLines={1} fontWeight={600} fontSize={'xl'} w={'100%'}>
         {name}

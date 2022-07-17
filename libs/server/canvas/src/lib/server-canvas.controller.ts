@@ -37,13 +37,17 @@ export class ServerCanvasController {
 
   @Delete('/:canvasId')
   async deleteCanvas(@Param('canvasId') canvasId: string) {
-    await this.serverUploadService.deleteImage(canvasId);
-    return this.canvasService.deleteCanvas(canvasId);
+    return Promise.all([this.serverUploadService.deleteImage(canvasId), this.canvasService.deleteCanvas(canvasId)]);
   }
 
   @Post(`:canvasId/upload`)
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file: Express.Multer.File, @Param('canvasId') canvasId: string): Promise<void> {
     await this.serverUploadService.uploadImage(file, canvasId);
+  }
+
+  @Get(`:canvasId/image`)
+  async getImage(@Param('canvasId') canvasId: string) {
+    return this.serverUploadService.getImage(canvasId);
   }
 }

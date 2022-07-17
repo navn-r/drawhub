@@ -1,5 +1,5 @@
 import { Box, VStack } from '@chakra-ui/react';
-import { useSocket } from '@drawhub/client/home/api';
+import { useGetCanvas, useSaveCanvas, useSocket } from '@drawhub/client/home/api';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import CanvasInput from './canvas-input';
 
@@ -20,6 +20,8 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
   const [brushColor, setBrushColor] = useState('black');
   const [brushSize, setBrushSize] = useState(10);
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>();
+  const { mutate, isLoading: isSaveLoading } = useSaveCanvas();
+  const { isLoading, data } = useGetCanvas(canvasId);
   const { socket, send } = useSocket(canvasId);
 
   const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
@@ -74,7 +76,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
 
   const paint = useCallback(
     (event: MouseEvent) => {
-      if (isPainting) {
+      if (!isLoading && isPainting) {
         const newMousePosition = getCoordinates(event);
 
         if (mousePosition && newMousePosition) {
@@ -89,7 +91,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
         }
       }
     },
-    [isPainting, mousePosition, drawLine, send, brushColor, brushSize]
+    [isLoading, isPainting, mousePosition, drawLine, send, brushColor, brushSize]
   );
 
   useEffect(() => {
@@ -137,24 +139,18 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
     const canvas = canvasRef.current;
     const img = new Image();
     const blob = new Blob([file], { type: 'application/image' });
-    img.src = URL.createObjectURL(blob);
     img.onload = () => {
       canvas?.getContext('2d')?.drawImage(img, 0, 0);
       cb?.();
     };
+    img.src = URL.createObjectURL(blob);
   }, []);
 
   /**
    * @see https://stackoverflow.com/a/59224495
    */
   const uploadImage = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const files = event.target.files;
-      if (!files || !files[0]) {
-        return;
-      }
-
-      const file = files[0];
+    (file: File, shouldSend?: boolean) => {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -164,17 +160,67 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
           return;
         }
 
-        paintImage(rawData, () =>
-          send('send-image', {
-            file: rawData,
-          })
-        );
+        paintImage(rawData, () => {
+          if (shouldSend) {
+            send('send-image', {
+              file: rawData,
+            });
+          }
+        });
       };
 
       reader.readAsArrayBuffer(file);
     },
     [paintImage, send]
   );
+
+  /**
+   * Handler for uploading image from canvas-input
+   */
+  const onUploadImage = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (!files || !files[0]) {
+        return;
+      }
+
+      const file = files[0];
+
+      uploadImage(file, true);
+    },
+    [uploadImage]
+  );
+
+  /**
+   * Handler for uploading canvas from s3
+   *
+   * @see https://stackoverflow.com/a/53916676
+   */
+  const uploadCanvas = useCallback(
+    (data: { Body: { data: ArrayBufferLike } }) => {
+      const file = new File([new Uint8Array(data.Body?.data) as ArrayBufferView], canvasId + '.png');
+      uploadImage(file);
+    },
+    [canvasId, uploadImage]
+  );
+
+  const saveCanvas = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        return;
+      }
+
+      mutate({
+        canvasId,
+        file: blob,
+      });
+    });
+  }, [mutate, canvasId]);
 
   useEffect(() => {
     if (
@@ -199,6 +245,12 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
     };
   }, [drawLine, socket, resetCanvas, paintImage]);
 
+  useEffect(() => {
+    if (!isLoading && data) {
+      uploadCanvas(data);
+    }
+  }, [isLoading, data, uploadCanvas]);
+
   return (
     <VStack spacing={5}>
       <Box borderWidth={'thick'} borderColor={'gray.500'} borderRadius={5}>
@@ -208,8 +260,10 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
         width={width}
         setBrushColor={setBrushColor}
         setBrushSize={setBrushSize}
-        uploadImage={uploadImage}
+        uploadImage={onUploadImage}
         clearCanvas={clearCanvas}
+        saveCanvas={saveCanvas}
+        isSaveLoading={isSaveLoading}
       />
     </VStack>
   );
