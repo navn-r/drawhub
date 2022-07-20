@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-config
+  labels:
+    component: server
+data:
+  MONGO_URI: 'mongodb://drawhub:admin@mongo-service:27017'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  selector:
+    component: server
+  ports:
+    - port: 3333
+      targetPort: 3333
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: client
+          image: drawhub/server:latest
+          imagePullPolicy: 'Never'
+          # image: ghcr.io/utscc09/drawhub/server:latest
+          # imagePullPolicy: "Always"
+          envFrom:
+            - configMapRef:
+                name: server-config
+          ports:
+            - containerPort: 3333
