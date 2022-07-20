@@ -23,11 +23,15 @@ export class CanvasService {
   }
 
   async addContributor(canvasId: string, email: string) {
-    const lmao = await this.model.find({ _id: canvasId, contributors: { $in: [email] } });
-    if (lmao.length) {
+    const query = await this.model.find({ _id: canvasId, contributors: { $in: [email] } });
+    if (query.length) {
       return;
     }
 
     return this.model.findByIdAndUpdate(canvasId, { $push: { contributors: email } });
+  }
+
+  markAsNotNew(canvasId: string) {
+    return this.model.findByIdAndUpdate(canvasId, { isNew: false });
   }
 }

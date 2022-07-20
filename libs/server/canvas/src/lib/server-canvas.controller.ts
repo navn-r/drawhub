@@ -43,7 +43,11 @@ export class ServerCanvasController {
   @Post(`:canvasId/upload`)
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file: Express.Multer.File, @Param('canvasId') canvasId: string): Promise<void> {
-    await this.serverUploadService.uploadImage(file, canvasId);
+    // TODO: Setup middleware to fetch canvas document and verify id, to prevent markAsNotNew being fired every time
+    await Promise.all([
+      this.canvasService.markAsNotNew(canvasId),
+      this.serverUploadService.uploadImage(file, canvasId),
+    ]);
   }
 
   @Get(`:canvasId/image`)

@@ -18,6 +18,7 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Skeleton,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -61,12 +62,13 @@ export interface CanvasCardProps {
   name: string;
   contributors: string[];
   preview: string;
+  isNew: boolean;
 }
 
-export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps) {
+export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCardProps) {
+  const [imageLoading, setImageLoading] = useState(true);
   const navigate = useNavigate();
   const { mutate } = useDeleteCanvas();
-  const [showNewBadge, setShowNewBadge] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
   return (
@@ -77,7 +79,7 @@ export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps
           Team
         </Text>
         <Flex flex={'1 1 auto'} />
-        {showNewBadge ? (
+        {isNew ? (
           <Badge fontSize={'sm'} colorScheme={'green'}>
             NEW
           </Badge>
@@ -85,18 +87,14 @@ export function CanvasCard({ _id, name, contributors, preview }: CanvasCardProps
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
         <IconButton aria-label={'Edit canvas'} icon={<FaEdit />} />
       </HStack>
-      <AspectRatio w={'300px'} ratio={1250 / 800}>
+      <Skeleton w={'300px'} h={'192px'} display={imageLoading ? 'initial' : 'none'} borderRadius={10} />
+      <AspectRatio w={'300px'} ratio={1250 / 800} display={imageLoading ? 'none' : 'initial'}>
         <Image
           ref={imageRef}
-          src={preview}
+          src={isNew ? 'https://skribbl.io/res/background.png' : preview}
           borderRadius={10}
-          backgroundColor={'white'}
-          onError={() => {
-            if (imageRef.current) {
-              imageRef.current.src = 'https://skribbl.io/res/background.png';
-              setShowNewBadge(true);
-            }
-          }}
+          backgroundColor={isNew ? 'gray.300' : 'white'}
+          onLoad={() => setImageLoading(false)}
         />
       </AspectRatio>
       <Text noOfLines={1} fontWeight={600} fontSize={'xl'} w={'100%'}>

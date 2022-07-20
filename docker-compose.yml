@@ -21,6 +21,8 @@ services:
     networks:
       - app
     restart: always
+    env_file:
+      - .env
 
   # node (uses base image)
   server:
@@ -44,6 +46,8 @@ services:
     networks:
       - app
     restart: always
+    env_file:
+      - .env
 
   # see: https://www.mongodb.com/compatibility/docker
   mongo:

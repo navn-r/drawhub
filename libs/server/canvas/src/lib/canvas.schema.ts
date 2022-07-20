@@ -13,6 +13,9 @@ export class Canvas {
 
   @Prop({ required: true })
   contributors: string[];
+
+  @Prop({ default: true })
+  isNew: boolean;
 }
 
 export type CreateCanvasDto = Omit<Canvas, 'contributors' | 'memberCount'>;

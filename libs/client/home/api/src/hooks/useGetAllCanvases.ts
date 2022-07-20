@@ -7,6 +7,7 @@ interface Canvas {
   name: string;
   contributors: string[];
   memberCount: number;
+  isNew: boolean;
 }
 
 const query = async () => {

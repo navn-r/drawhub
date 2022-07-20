@@ -77,6 +77,7 @@
     "aws-sdk": "^2.1175.0",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "dotenv": "^16.0.1",
     "framer-motion": "^6.3.16",
     "jwks-rsa": "^2.1.4",
     "mongoose": "^6.4.1",
