@@ -35,6 +35,11 @@ export class ServerCanvasController {
     return this.canvasService.getAllCanvas();
   }
 
+  @Get('/:canvasId')
+  getCanvasById(@Param('canvasId') canvasId: string): Promise<Canvas> {
+    return this.canvasService.getCanvasById(canvasId);
+  }
+
   @Delete('/:canvasId')
   async deleteCanvas(@Param('canvasId') canvasId: string) {
     return Promise.all([this.serverUploadService.deleteImage(canvasId), this.canvasService.deleteCanvas(canvasId)]);

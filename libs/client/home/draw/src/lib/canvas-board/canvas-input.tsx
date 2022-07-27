@@ -76,8 +76,6 @@ export function CanvasInput({
     [setBrushColor]
   );
 
-  useEffect(() => console.log('render'), [uploadImage]);
-
   return (
     <HStack spacing={10} w={width + 11} bg={'gray.100'} p={5} borderRadius={5} justify={'center'}>
       <IconButton

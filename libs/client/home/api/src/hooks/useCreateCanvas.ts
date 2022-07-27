@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
-const createCanvas = async (canvas: { name: string }) => {
+const createCanvas = async (canvas: { name: string; isPublic: boolean }) => {
   const { data } = await axios.post('/api/canvas', canvas);
   return data;
 };
