@@ -59,4 +59,9 @@ export class ServerCanvasController {
   async getImage(@Param('canvasId') canvasId: string) {
     return this.serverUploadService.getImage(canvasId);
   }
+
+  @Post(`:canvasId/:email/contributor`)
+  async addContributor(@Param('canvasId') canvasId: string, @Param('email') email: string) {
+    return this.canvasService.addContributor(canvasId, email);
+  }
 }

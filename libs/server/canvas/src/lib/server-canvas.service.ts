@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Console } from 'console';
 import { Model } from 'mongoose';
 import { Canvas, CanvasDocument } from './canvas.schema';
 

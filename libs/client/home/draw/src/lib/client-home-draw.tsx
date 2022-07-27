@@ -15,7 +15,9 @@ export function ClientHomeDraw(props: ClientHomeDrawProps) {
     <Box w={'100%'}>
       <Flex justifyContent={'space-between'} mb={5}>
         <Heading>Draw</Heading>
-        <Skeleton isLoaded={!isLoading}>{!data?.isPublic ? <InviteUserButton /> : null}</Skeleton>
+        <Skeleton isLoaded={!isLoading}>
+          {!data?.isPublic && canvasId ? <InviteUserButton canvasId={canvasId} /> : null}
+        </Skeleton>
       </Flex>
       {canvasId ? (
         <>

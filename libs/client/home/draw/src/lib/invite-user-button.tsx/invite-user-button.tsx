@@ -12,16 +12,21 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useCreateCanvas } from '@drawhub/client/home/api';
+import { useCreateCanvas, useSaveContributor } from '@drawhub/client/home/api';
 import { useState } from 'react';
 import { FaPeopleCarry } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
-export interface InviteUserButtonProps {}
+export interface InviteUserButtonProps {
+  canvasId: string;
+}
 
 export function InviteUserButton(props: InviteUserButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutateAsync, isLoading } = useCreateCanvas();
+  const { isLoading } = useCreateCanvas();
+  const { mutateAsync, isLoading: isLoadingInvite, isSuccess } = useSaveContributor();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
 
   const onChangeId: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -29,7 +34,8 @@ export function InviteUserButton(props: InviteUserButtonProps) {
   };
 
   const inviteEmail = async () => {
-    console.log(email);
+    await mutateAsync({ canvasId: props.canvasId, email: email.trim() });
+    onClose();
   };
 
   return (
@@ -56,12 +62,19 @@ export function InviteUserButton(props: InviteUserButtonProps) {
                 placeholder={`eg. DreamworkMakesTheTeamwork@gmail.com`}
                 value={email}
                 onChange={onChangeId}
+                required={true}
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button isLoading={isLoading} colorScheme={'green'} mr={3} isDisabled={!email.trim()} onClick={inviteEmail}>
+            <Button
+              isLoading={isLoadingInvite}
+              colorScheme={'green'}
+              mr={3}
+              isDisabled={!email.trim()}
+              onClick={inviteEmail}
+            >
               Submit
             </Button>
           </ModalFooter>
