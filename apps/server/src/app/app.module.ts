@@ -1,6 +1,6 @@
-import { ServerAuthModule } from '@drawhub/server/auth';
-import { ServerCanvasModule } from '@drawhub/server/canvas';
-import { ServerUploadModule } from '@drawhub/server/upload';
+import { AuthModule } from '@drawhub/server/auth';
+import { CanvasModule } from '@drawhub/server/canvas';
+import { UploadModule } from '@drawhub/server/upload';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -15,7 +15,7 @@ import { AppService } from './app.service';
       driver: ApolloDriver,
       autoSchemaFile: true,
       useGlobalPrefix: true,
-      include: [ServerCanvasModule],
+      include: [CanvasModule],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule.forRoot({ envFilePath: `.env` })],
@@ -24,9 +24,9 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
-    ServerAuthModule,
-    ServerCanvasModule,
-    ServerUploadModule,
+    AuthModule,
+    CanvasModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

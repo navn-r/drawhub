@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { MessageBody, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { CanvasService } from './server-canvas.service';
+import { CanvasService } from './canvas.service';
 
 type SocketPayload<T> = { canvasId: string } & T;
 
@@ -17,7 +17,7 @@ export class CanvasEventsGateway implements OnGatewayInit {
   @WebSocketServer()
   server: Server;
 
-  private logger: Logger = new Logger('CanvasEventGateway');
+  private logger: Logger = new Logger('CanvasEvents');
 
   constructor(private canvasService: CanvasService) {}
 
