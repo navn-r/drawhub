@@ -33,6 +33,14 @@ const data = [
         text: 'Custom useApi hook - @auth0/auth0-react',
         href: 'https://github.com/auth0/auth0-react/blob/master/EXAMPLES.md#4-create-a-useapi-hook-for-accessing-protected-apis-with-an-access-token',
       },
+      {
+        text: 'Using Apollo GraphQL with React in an Nx Workspace',
+        href: 'https://blog.nrwl.io/using-apollo-graphql-with-react-in-an-nx-workspace-99db8d69cebe',
+      },
+      {
+        text: 'Three in one (code first) : NestJs & GraphQl & Mongoose',
+        href: 'https://dev.to/lotfi/three-in-one-code-first-nestjs-graphql-mongoose-30ie',
+      },
     ],
   },
   {

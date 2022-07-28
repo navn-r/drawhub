@@ -1,22 +1,35 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
-// TODO: Replace with shared interface from backend
 interface Canvas {
   _id: string;
   name: string;
   contributors: string[];
-  memberCount: number;
   isNew: boolean;
 }
 
 const query = async () => {
-  const { data } = await axios.get('/api/canvas');
-  return data;
+  const {
+    data: { data },
+  } = await axios.post('/api/graphql', {
+    operationName: 'GetAllCanvases',
+    query: `
+      query GetAllCanvases {
+        canvases {
+          _id,
+          name,
+          isNew,
+          contributors
+        }
+      }
+    `,
+  });
+
+  return data?.canvases ?? [];
 };
 
 export function useGetAllCanvases() {
-  return useQuery<Canvas[]>(['canvas'], query, {
+  return useQuery<Canvas[]>(['canvas', 'all'], query, {
     refetchOnMount: true,
   });
 }

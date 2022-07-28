@@ -9,7 +9,7 @@ import {
   SliderThumb,
   SliderTrack,
 } from '@chakra-ui/react';
-import { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useCallback, useRef } from 'react';
 import { FaEraser, FaFileImage, FaPencilAlt, FaSave, FaTrashAlt } from 'react-icons/fa';
 
 export interface CanvasInputProps {
@@ -75,8 +75,6 @@ export function CanvasInput({
     },
     [setBrushColor]
   );
-
-  useEffect(() => console.log('render'), [uploadImage]);
 
   return (
     <HStack spacing={10} w={width + 11} bg={'gray.100'} p={5} borderRadius={5} justify={'center'}>

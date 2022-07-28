@@ -9,7 +9,7 @@ const query = async () => {
 
 export function useGetProtectedData() {
   const { getAccessTokenWithPopup } = useAuth0();
-  const result = useQuery(['app'], query);
+  const result = useQuery(['app', 'protected'], query);
 
   // Just example, should only keep audience value in api-provider
   const retryWithPopup = async () => {

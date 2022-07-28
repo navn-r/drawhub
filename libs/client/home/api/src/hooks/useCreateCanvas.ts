@@ -2,7 +2,27 @@ import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
 const createCanvas = async (canvas: { name: string }) => {
-  const { data } = await axios.post('/api/canvas', canvas);
+  const {
+    data: {
+      data: { createCanvas: data },
+    },
+  } = await axios.post('/api/graphql', {
+    operationName: 'CreateCanvas',
+    query: `
+      mutation CreateCanvas($canvas: CreateCanvasInput!) {
+        createCanvas(payload: $canvas) {
+          _id,
+          name,
+          isNew,
+          contributors
+        }
+      }
+    `,
+    variables: {
+      canvas,
+    },
+  });
+
   return data;
 };
 

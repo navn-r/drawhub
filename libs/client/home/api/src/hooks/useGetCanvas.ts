@@ -3,13 +3,33 @@ import { useQuery } from 'react-query';
 
 const query = (canvasId: string) => {
   return async () => {
-    const { data } = await axios.get('/api/canvas/' + canvasId + '/image');
-    return data;
+    const {
+      data: {
+        data: { canvas },
+      },
+    } = await axios.post('/api/graphql', {
+      operationName: 'GetCanvas',
+      query: `
+        query GetCanvas($canvasId: String!) {
+          canvas(payload: { _id: $canvasId }) {
+            _id,
+            name,
+            isNew,
+            contributors
+          }
+        }
+      `,
+      variables: {
+        canvasId,
+      },
+    });
+
+    return canvas;
   };
 };
 
-export function useGetCanvas(canvasId: string) {
-  return useQuery(['canvas'], query(canvasId), {
+export function useGetCanvas(canvasId = '') {
+  return useQuery(['canvas', canvasId], query(canvasId), {
     refetchOnMount: true,
   });
 }

@@ -20,7 +20,14 @@ export class ServerCanvasController {
   }
 
   @Get(`:canvasId/image`)
-  async getImage(@Param('canvasId') canvasId: string) {
-    return this.serverUploadService.getImage(canvasId);
+  async getImage(@Param('canvasId') canvasId: CanvasId) {
+    const { isNew } = await this.canvasService.get(canvasId);
+
+    // No upload in s3 yet
+    if (isNew) {
+      return;
+    }
+
+    return this.serverUploadService.getImage(canvasId as string);
   }
 }
