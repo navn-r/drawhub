@@ -1,3 +1,3 @@
-export * from './lib/server-canvas.controller';
-export * from './lib/server-canvas.service';
-export * from './lib/server-canvas.module';
+export * from './lib/canvas.controller';
+export * from './lib/canvas.service';
+export * from './lib/canvas.module';

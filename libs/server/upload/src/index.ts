@@ -1,2 +1,2 @@
-export * from './lib/server-upload.service';
-export * from './lib/server-upload.module';
+export * from './lib/upload.service';
+export * from './lib/upload.module';

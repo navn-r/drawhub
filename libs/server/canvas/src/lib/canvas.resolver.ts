@@ -1,14 +1,14 @@
 import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
-import { ServerUploadService } from '@drawhub/server/upload';
+import { UploadService } from '@drawhub/server/upload';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCanvasInput } from './canvas.schema';
-import { CanvasService } from './server-canvas.service';
+import { CanvasService } from './canvas.service';
 
 @Resolver(() => Canvas)
 @UseGuards(GraphqlAuthGuard)
 export class CanvasResolver {
-  constructor(private canvasService: CanvasService, private serverUploadService: ServerUploadService) {}
+  constructor(private canvasService: CanvasService, private uploadService: UploadService) {}
 
   @Query(() => [Canvas])
   async canvases() {
@@ -31,7 +31,7 @@ export class CanvasResolver {
     const deleted: Canvas = await this.canvasService.delete(_id);
 
     if (!deleted.isNew) {
-      await this.serverUploadService.deleteImage(_id as string);
+      await this.uploadService.deleteImage(_id as string);
     }
 
     return deleted;
