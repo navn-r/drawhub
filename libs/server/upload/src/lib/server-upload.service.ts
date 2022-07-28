@@ -42,12 +42,7 @@ export class ServerUploadService {
       Key: canvasId + '.png',
     };
 
-    // New canvasses will not have an s3 object until saved
-    // This prevents server side error, needs to be handled
-    try {
-      return await s3.getObject(params).promise();
-    } catch (e) {
-      /* FIXME */
-    }
+    // New canvases will not have an s3 object until saved
+    return await s3.getObject(params).promise();
   }
 }
