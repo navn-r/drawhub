@@ -1,57 +1,33 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Get,
-  Req,
-  Delete,
-  Param,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
-import { CanvasService } from './server-canvas.service';
-import { Canvas, CreateCanvasDto } from './canvas.schema';
-import { AuthGuard } from '@nestjs/passport';
 import { ServerUploadService } from '@drawhub/server/upload';
+import { Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CanvasId } from './canvas.schema';
+import { CanvasService } from './server-canvas.service';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('canvas')
 export class ServerCanvasController {
   constructor(private canvasService: CanvasService, private serverUploadService: ServerUploadService) {}
 
-  @Post()
-  create(@Req() req: Request, @Body() item: CreateCanvasDto): Promise<Canvas> {
-    const { email } = req['user'];
-    return this.canvasService.createCanvas({ ...item, memberCount: 1, contributors: [email] });
-  }
-
-  /**
-   * TODO we need to get all canvases based on the user that is logged in.
-   */
-  @Get()
-  getAllCanvas(): Promise<Canvas[]> {
-    return this.canvasService.getAllCanvas();
-  }
-
-  @Delete('/:canvasId')
-  async deleteCanvas(@Param('canvasId') canvasId: string) {
-    return Promise.all([this.serverUploadService.deleteImage(canvasId), this.canvasService.deleteCanvas(canvasId)]);
-  }
-
   @Post(`:canvasId/upload`)
   @UseInterceptors(FileInterceptor('file'))
-  async uploadImage(@UploadedFile() file: Express.Multer.File, @Param('canvasId') canvasId: string): Promise<void> {
-    // TODO: Setup middleware to fetch canvas document and verify id, to prevent markAsNotNew being fired every time
-    await Promise.all([
-      this.canvasService.markAsNotNew(canvasId),
-      this.serverUploadService.uploadImage(file, canvasId),
-    ]);
+  async uploadImage(@UploadedFile() file: Express.Multer.File, @Param('canvasId') canvasId: CanvasId) {
+    return Promise.all([
+      this.serverUploadService.uploadImage(file, canvasId as string),
+      this.canvasService.update(canvasId, { isNew: false }),
+    ]).then(([upload]) => upload);
   }
 
   @Get(`:canvasId/image`)
-  async getImage(@Param('canvasId') canvasId: string) {
-    return this.serverUploadService.getImage(canvasId);
+  async getImage(@Param('canvasId') canvasId: CanvasId) {
+    const { isNew } = await this.canvasService.get(canvasId);
+
+    // No upload in s3 yet
+    if (isNew) {
+      return;
+    }
+
+    return this.serverUploadService.getImage(canvasId as string);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Canvas, CanvasDocument } from './canvas.schema';
+import { Canvas, CanvasDocument, CanvasId, UpdateCanvasInput } from './canvas.schema';
 
 @Injectable()
 export class CanvasService {
@@ -10,28 +10,40 @@ export class CanvasService {
     private model: Model<CanvasDocument>
   ) {}
 
-  createCanvas(item: Canvas): Promise<Canvas> {
+  create(item: Canvas): Promise<Canvas> {
     return this.model.create(item);
   }
 
-  getAllCanvas(): Promise<Canvas[]> {
+  getAll(): Promise<Canvas[]> {
     return this.model.find().exec();
   }
 
-  deleteCanvas(canvasId: string) {
+  get(canvasId: CanvasId): Promise<Canvas> {
+    return this.model.findById(canvasId).exec();
+  }
+
+  delete(canvasId: CanvasId) {
     return this.model.findByIdAndDelete(canvasId);
   }
 
-  async addContributor(canvasId: string, email: string) {
+  update(canvasId: CanvasId, data: Omit<UpdateCanvasInput, '_id'>) {
+    return this.model.findByIdAndUpdate(
+      canvasId,
+      { ...data },
+      {
+        returnDocument: 'after',
+      }
+    );
+  }
+
+  async addContributor(canvasId: CanvasId, email: string) {
     const query = await this.model.find({ _id: canvasId, contributors: { $in: [email] } });
+
+    // contributor is already added
     if (query.length) {
       return;
     }
 
     return this.model.findByIdAndUpdate(canvasId, { $push: { contributors: email } });
-  }
-
-  markAsNotNew(canvasId: string) {
-    return this.model.findByIdAndUpdate(canvasId, { isNew: false });
   }
 }

@@ -1,4 +1,5 @@
-import { Box, Code, Flex, Heading } from '@chakra-ui/react';
+import { Box, Code, Flex, Heading, Skeleton } from '@chakra-ui/react';
+import { useGetCanvas } from '@drawhub/client/home/api';
 import { useParams } from 'react-router-dom';
 import CanvasBoard from './canvas-board/canvas-board';
 
@@ -7,18 +8,17 @@ export interface ClientHomeDrawProps {}
 
 export function ClientHomeDraw(props: ClientHomeDrawProps) {
   const { canvasId } = useParams();
+  const { isLoading, data } = useGetCanvas(canvasId);
 
   return (
     <Box w={'100%'}>
       <Flex justifyContent={'space-between'} mb={5}>
-        <Heading>Draw</Heading>
+        <Skeleton isLoaded={!isLoading && data}>
+          <Heading>{data?.name ?? 'Draw'}</Heading>
+          Canvas ID: <Code as={'pre'}>{canvasId}</Code>
+        </Skeleton>
       </Flex>
-      {canvasId ? (
-        <>
-          Data: <Code as={'pre'}>{canvasId}</Code>
-          <CanvasBoard width={1250} height={800} canvasId={canvasId} />
-        </>
-      ) : null}
+      {canvasId ? <CanvasBoard width={1250} height={800} canvasId={canvasId} /> : null}
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 import { Box, VStack } from '@chakra-ui/react';
-import { useGetCanvas, useSaveCanvas, useSocket } from '@drawhub/client/home/api';
+import { useGetCanvasImage, useSaveCanvas, useSocket } from '@drawhub/client/home/api';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import CanvasInput from './canvas-input';
 
@@ -21,7 +21,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
   const [brushSize, setBrushSize] = useState(10);
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>();
   const { mutate, isLoading: isSaveLoading } = useSaveCanvas();
-  const { isLoading, data } = useGetCanvas(canvasId);
+  const { isLoading, data } = useGetCanvasImage(canvasId);
   const { socket, send } = useSocket(canvasId);
 
   const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
@@ -246,6 +246,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
   }, [drawLine, socket, resetCanvas, paintImage]);
 
   useEffect(() => {
+    // data is undefined when the canvas is new
     if (!isLoading && data) {
       uploadCanvas(data);
     }
