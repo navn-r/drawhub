@@ -3,11 +3,7 @@ import { useQuery } from 'react-query';
 
 const query = (canvasId: string) => {
   return async () => {
-    const {
-      data: {
-        data: { canvas },
-      },
-    } = await axios.post('/api/graphql', {
+    const res = await axios.post('/api/graphql', {
       operationName: 'GetCanvas',
       query: `
         query GetCanvas($canvasId: String!) {
@@ -24,8 +20,7 @@ const query = (canvasId: string) => {
         canvasId,
       },
     });
-
-    return canvas;
+    return { canvas: res.data?.data?.canvas, errors: res.data?.errors };
   };
 };
 

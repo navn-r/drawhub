@@ -1,6 +1,6 @@
 import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
 import { UploadService } from '@drawhub/server/upload';
-import { UseGuards } from '@nestjs/common';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCanvasInput } from './canvas.schema';
 import { CanvasService } from './canvas.service';
@@ -16,8 +16,13 @@ export class CanvasResolver {
   }
 
   @Query(() => Canvas)
-  async canvas(@Args('payload') { _id }: GetCanvasInput) {
-    return this.canvasService.get(_id);
+  async canvas(@CurrentUser() user: { email: string }, @Args('payload') { _id }: GetCanvasInput) {
+    const canvas = await this.canvasService.get(_id);
+    console.log(canvas.contributors, user.email, !canvas.contributors.includes(user.email));
+    if (!canvas.contributors.includes(user.email)) {
+      throw new ForbiddenException();
+    }
+    return canvas;
   }
 
   @Mutation(() => Canvas)
