@@ -32,7 +32,6 @@ export function CanvasList() {
     if (!data?.length) {
       return [];
     }
-    console.log(data);
     return data.filter(({ isPublic }) => isPublic);
   }, [data]);
 
@@ -45,7 +44,7 @@ export function CanvasList() {
 
   return isLoading || isRefetching ? (
     <CanvasSkeletonList />
-  ) : data?.length ? (
+  ) : privateData.length || publicData.length ? (
     <VStack spacing={5} align="flex-start">
       {publicData.length && (
         <VStack spacing={5} align="flex-start">
