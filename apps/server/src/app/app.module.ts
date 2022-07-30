@@ -8,6 +8,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BullModule } from '@nestjs/bull';
+import { ServerEmailModule } from '@drawhub/server/email';
 
 @Module({
   imports: [
@@ -27,6 +29,13 @@ import { AppService } from './app.service';
     AuthModule,
     CanvasModule,
     UploadModule,
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    ServerEmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

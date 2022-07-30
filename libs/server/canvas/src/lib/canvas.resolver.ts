@@ -9,14 +9,20 @@ import {
   GetCanvasInput,
   UpdateCanvasInput,
   StitchedCanvasInput,
+  StichCanvasOutput,
   User,
 } from './canvas.schema';
 import { CanvasService } from './canvas.service';
+import { ServerEmailService } from '@drawhub/server/email';
 
 @Resolver(() => Canvas)
 @UseGuards(GraphqlAuthGuard)
 export class CanvasResolver {
-  constructor(private canvasService: CanvasService, private uploadService: UploadService) {}
+  constructor(
+    private canvasService: CanvasService,
+    private uploadService: UploadService,
+    private emailService: ServerEmailService
+  ) {}
 
   @Query(() => [Canvas])
   async canvases(@CurrentUser() { email }: User) {
@@ -51,6 +57,14 @@ export class CanvasResolver {
     await this.uploadService.stitchImage(_id as string, stitchedCanvas._id as string);
 
     return stitchedCanvas;
+  }
+
+  @Mutation(() => StichCanvasOutput)
+  async addEmailQueue(@CurrentUser() { email }: User) {
+    this.emailService.add(email);
+    return {
+      success: true,
+    };
   }
 
   @Mutation(() => Canvas)

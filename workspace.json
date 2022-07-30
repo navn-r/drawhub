@@ -10,6 +10,7 @@
     "server": "apps/server",
     "server-auth": "libs/server/auth",
     "server-canvas": "libs/server/canvas",
+    "server-email": "libs/server/email",
     "server-upload": "libs/server/upload"
   }
 }

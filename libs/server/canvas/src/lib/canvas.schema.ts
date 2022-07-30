@@ -82,3 +82,9 @@ export class UpdateCanvasInput extends CanvasInput {
   @Field(() => Boolean, { nullable: true })
   isStitched?: boolean;
 }
+
+@ObjectType()
+export class StichCanvasOutput {
+  @Field(() => Boolean)
+  success = true;
+}
