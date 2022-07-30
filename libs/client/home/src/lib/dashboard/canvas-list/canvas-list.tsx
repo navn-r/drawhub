@@ -51,7 +51,7 @@ export function CanvasList() {
           <Heading size={'lg'}>Public</Heading>
           <Wrap spacing={10}>
             {publicData.map((canvas) => (
-              <CardWithPreview {...canvas} />
+              <CardWithPreview key={canvas._id} {...canvas} />
             ))}
           </Wrap>
         </VStack>
@@ -60,8 +60,8 @@ export function CanvasList() {
         <VStack spacing={5} align="flex-start">
           <Heading size={'lg'}>Private</Heading>
           <Wrap spacing={10}>
-            {privateData.map((canvas) => (
-              <CardWithPreview {...canvas} />
+            {privateData.map((canvas, i) => (
+              <CardWithPreview key={canvas._id} {...canvas} />
             ))}
           </Wrap>
         </VStack>
