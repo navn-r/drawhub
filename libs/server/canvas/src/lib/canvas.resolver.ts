@@ -2,11 +2,18 @@ import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
 import { UploadService } from '@drawhub/server/upload';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCanvasInput } from './canvas.schema';
+import {
+  Canvas,
+  CreateCanvasInput,
+  DeleteCanvasInput,
+  GetCanvasInput,
+  UpdateCanvasInput,
+  GetNewContributor,
+} from './canvas.schema';
 import { CanvasService } from './canvas.service';
 
 @Resolver(() => Canvas)
-@UseGuards(GraphqlAuthGuard)
+// @UseGuards(GraphqlAuthGuard)
 export class CanvasResolver {
   constructor(private canvasService: CanvasService, private uploadService: UploadService) {}
 
@@ -40,5 +47,10 @@ export class CanvasResolver {
   @Mutation(() => Canvas)
   async updateCanvas(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
     return this.canvasService.update(_id, data);
+  }
+
+  @Mutation(() => Canvas)
+  async addContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
+    return this.canvasService.addContributor(_id, data['contributors'][0]);
   }
 }

@@ -7,3 +7,4 @@ export * from './hooks/useGetProtectedData';
 export * from './hooks/useSaveCanvas';
 export * from './hooks/useSocket';
 export * from './lib/api-provider';
+export * from './hooks/useSaveContributor';

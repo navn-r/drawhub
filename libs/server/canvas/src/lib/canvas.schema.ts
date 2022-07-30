@@ -21,6 +21,10 @@ export class Canvas {
   @Field(() => Boolean, { defaultValue: true })
   @Prop({ default: true })
   isNew: boolean;
+
+  @Field(() => Boolean, { defaultValue: true })
+  @Prop({ default: true })
+  isPublic: boolean;
 }
 
 export type CanvasDocument = Canvas & Document;
@@ -29,6 +33,9 @@ export const CanvasSchema = SchemaFactory.createForClass(Canvas);
 export class CreateCanvasInput {
   @Field(() => String)
   name: string;
+
+  @Field(() => Boolean)
+  isPublic: boolean;
 }
 
 @InputType()
@@ -50,6 +57,9 @@ export class UpdateCanvasInput {
 
   @Field(() => Boolean, { nullable: true })
   isNew?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  isPublic?: boolean;
 }
 
 @InputType()

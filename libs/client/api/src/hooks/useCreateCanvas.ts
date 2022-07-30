@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
-const createCanvas = async (canvas: { name: string }) => {
+const createCanvas = async (canvas: { name: string; isPublic: boolean }) => {
   const {
     data: {
       data: { createCanvas: data },
@@ -14,7 +14,8 @@ const createCanvas = async (canvas: { name: string }) => {
           _id,
           name,
           isNew,
-          contributors
+          contributors,
+          isPublic,
         }
       }
     `,
