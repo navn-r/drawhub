@@ -40,7 +40,7 @@ export function CanvasList() {
       return [];
     }
     return data.filter(({ isPublic, contributors }) => !isPublic && contributors.includes(user?.email ?? ''));
-  }, [data]);
+  }, [data, user]);
 
   return isLoading || isRefetching ? (
     <CanvasSkeletonList />
