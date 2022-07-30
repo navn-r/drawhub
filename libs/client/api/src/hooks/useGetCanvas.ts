@@ -15,6 +15,7 @@ const query = (canvasId: string) => {
             _id,
             name,
             isNew,
+            isPublic,
             contributors
           }
         }
