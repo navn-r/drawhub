@@ -6,7 +6,7 @@ import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCan
 import { CanvasService } from './canvas.service';
 
 @Resolver(() => Canvas)
-// @UseGuards(GraphqlAuthGuard)
+@UseGuards(GraphqlAuthGuard)
 export class CanvasResolver {
   constructor(private canvasService: CanvasService, private uploadService: UploadService) {}
 

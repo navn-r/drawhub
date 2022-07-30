@@ -1,44 +1,74 @@
-import { Wrap, WrapItem } from '@chakra-ui/react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Heading, HStack, VStack, Wrap, WrapItem } from '@chakra-ui/react';
 import { useGetAllCanvases } from '@drawhub/client/api';
 import { EmptyDisplay } from '@drawhub/client/ui';
-import CanvasCard from './canvas-card';
+import { useMemo } from 'react';
+import { CanvasCard, CanvasCardProps } from './canvas-card';
 import CanvasSkeleton from './canvas-skeleton';
 
 const CanvasSkeletonList: React.FC = () => (
-  <>
-    <WrapItem>
-      <CanvasSkeleton />
-    </WrapItem>
-    <WrapItem>
-      <CanvasSkeleton />
-    </WrapItem>
-    <WrapItem>
-      <CanvasSkeleton />
-    </WrapItem>
-  </>
+  <HStack spacing={10}>
+    <CanvasSkeleton />
+    <CanvasSkeleton />
+    <CanvasSkeleton />
+  </HStack>
 );
 
-export function CanvasList() {
-  const { isLoading, data, isRefetching } = useGetAllCanvases();
+const CardWithPreview = (props: Omit<CanvasCardProps, 'preview'>) => {
+  const preview = process.env['NX_AWS_URL'] + props._id + '.png?dummy=' + Date.now();
 
   return (
-    <Wrap spacing={10}>
-      {isLoading || isRefetching ? (
-        <CanvasSkeletonList />
-      ) : data?.length ? (
-        data?.map((canvas) => {
-          // Prevents canvas preview from being cached
-          const preview = process.env['NX_AWS_URL'] + canvas._id + '.png?dummy=' + Date.now();
+    <WrapItem key={props._id}>
+      <CanvasCard {...props} preview={preview} />
+    </WrapItem>
+  );
+};
 
-          return (
-            <WrapItem key={canvas._id}>
-              <CanvasCard {...canvas} preview={preview} />
-            </WrapItem>
-          );
-        })
-      ) : (
-        <EmptyDisplay />
+export function CanvasList() {
+  const { user } = useAuth0();
+  const { isLoading, data, isRefetching } = useGetAllCanvases();
+
+  const publicData = useMemo(() => {
+    if (!data?.length) {
+      return [];
+    }
+    console.log(data);
+    return data.filter(({ isPublic }) => isPublic);
+  }, [data]);
+
+  const privateData = useMemo(() => {
+    if (!data?.length) {
+      return [];
+    }
+    return data.filter(({ isPublic, contributors }) => !isPublic && contributors.includes(user?.email ?? ''));
+  }, [data]);
+
+  return isLoading || isRefetching ? (
+    <CanvasSkeletonList />
+  ) : data?.length ? (
+    <VStack spacing={5} align="flex-start">
+      {publicData.length && (
+        <VStack spacing={5} align="flex-start">
+          <Heading size={'lg'}>Public</Heading>
+          <Wrap spacing={10}>
+            {publicData.map((canvas) => (
+              <CardWithPreview {...canvas} />
+            ))}
+          </Wrap>
+        </VStack>
       )}
-    </Wrap>
+      {privateData.length && (
+        <VStack spacing={5} align="flex-start">
+          <Heading size={'lg'}>Private</Heading>
+          <Wrap spacing={10}>
+            {privateData.map((canvas) => (
+              <CardWithPreview {...canvas} />
+            ))}
+          </Wrap>
+        </VStack>
+      )}
+    </VStack>
+  ) : (
+    <EmptyDisplay />
   );
 }
