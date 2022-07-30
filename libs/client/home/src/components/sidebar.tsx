@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Flex, HStack, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Flex, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
+import { ConsentPopupButton } from '@drawhub/client/api';
 import { Link, useMatch } from 'react-router-dom';
 
 const SidebarItem = ({ name, path, special }: { name: string; path: string; special?: boolean }) => {
@@ -63,6 +64,8 @@ export function Sidebar(props: SidebarProps) {
       <SidebarItem name={'Draw'} path={'draw/*'} special />
       <SidebarItem name={'Dashboard'} path={''} />
       <SidebarItem name={'Premium'} path={'premium'} />
+      <Spacer />
+      <ConsentPopupButton />
     </VStack>
   );
 }
