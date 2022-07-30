@@ -43,9 +43,13 @@ export class CanvasEventsGateway implements OnGatewayInit {
   }
 
   @SubscribeMessage('join-room')
-  handleJoinRoom(client: Socket, payload: SocketPayload<{ email: string }>) {
+  async handleJoinRoom(client: Socket, payload: SocketPayload<{ email: string }>) {
+    const canvas = await this.canvasService.get(payload.canvasId);
+    if (!canvas.isPublic) {
+      return;
+    }
     this.logger.log(`[${payload.canvasId}] ROOM JOIN <${payload.email}>`);
-    this.canvasService.addContributor(payload.canvasId, payload.email);
+    this.canvasService.saveContributor(payload.canvasId, payload.email);
     client.join(payload.canvasId);
     client.emit('joined-room', payload.email);
   }

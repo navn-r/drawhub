@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 
 interface Canvas {
+  isPublic: boolean;
   _id: string;
   name: string;
   contributors: string[];
@@ -19,6 +20,7 @@ const query = async () => {
           _id,
           name,
           isNew,
+          isPublic
           contributors
         }
       }

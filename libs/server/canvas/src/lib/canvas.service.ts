@@ -14,8 +14,10 @@ export class CanvasService {
     return this.model.create(item);
   }
 
-  getAll(): Promise<Canvas[]> {
-    return this.model.find().exec();
+  getAll(email?: string): Promise<Canvas[]> {
+    const filter = email ? { $or: [{ contributors: { $in: [email] } }, { isPublic: true }] } : {};
+
+    return this.model.find(filter).exec();
   }
 
   get(canvasId: CanvasId): Promise<Canvas> {
@@ -36,7 +38,7 @@ export class CanvasService {
     );
   }
 
-  async addContributor(canvasId: CanvasId, email: string) {
+  async saveContributor(canvasId: CanvasId, email: string) {
     const query = await this.model.find({ _id: canvasId, contributors: { $in: [email] } });
 
     // contributor is already added

@@ -1,8 +1,8 @@
 import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
 import { UploadService } from '@drawhub/server/upload';
-import { UseGuards } from '@nestjs/common';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCanvasInput } from './canvas.schema';
+import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCanvasInput, User } from './canvas.schema';
 import { CanvasService } from './canvas.service';
 
 @Resolver(() => Canvas)
@@ -11,18 +11,21 @@ export class CanvasResolver {
   constructor(private canvasService: CanvasService, private uploadService: UploadService) {}
 
   @Query(() => [Canvas])
-  async canvases() {
-    return this.canvasService.getAll();
+  async canvases(@CurrentUser() { email }: User) {
+    return this.canvasService.getAll(email);
   }
 
   @Query(() => Canvas)
-  async canvas(@Args('payload') { _id }: GetCanvasInput) {
-    return this.canvasService.get(_id);
+  async canvas(@CurrentUser() { email }: User, @Args('payload') { _id }: GetCanvasInput) {
+    const canvas = await this.canvasService.get(_id);
+    if (!canvas.contributors.includes(email)) {
+      throw new ForbiddenException();
+    }
+    return canvas;
   }
 
   @Mutation(() => Canvas)
-  async createCanvas(@CurrentUser() user: { email: string }, @Args('payload') payload: CreateCanvasInput) {
-    const { email } = user;
+  async createCanvas(@CurrentUser() { email }: User, @Args('payload') payload: CreateCanvasInput) {
     return this.canvasService.create({ ...payload, contributors: [email], isNew: true });
   }
 
@@ -40,5 +43,10 @@ export class CanvasResolver {
   @Mutation(() => Canvas)
   async updateCanvas(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
     return this.canvasService.update(_id, data);
+  }
+
+  @Mutation(() => Canvas)
+  async saveContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
+    return this.canvasService.saveContributor(_id, data['contributors'][0]);
   }
 }
