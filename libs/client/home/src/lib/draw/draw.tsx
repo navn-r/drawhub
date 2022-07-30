@@ -34,7 +34,7 @@ export function Draw(props: DrawProps) {
           {!data?.canvas?.isPublic && canvasId ? <InviteUserButton canvasId={canvasId} /> : null}
         </Skeleton>
       </Flex>
-      {canvasId ? <CanvasBoard width={1250} height={800} canvasId={canvasId} /> : null}
+      {!isLoading && canvasId ? <CanvasBoard width={1250} height={800} canvasId={canvasId} /> : null}
     </Box>
   );
 }

@@ -18,7 +18,6 @@ export class CanvasResolver {
   @Query(() => Canvas)
   async canvas(@CurrentUser() user: { email: string }, @Args('payload') { _id }: GetCanvasInput) {
     const canvas = await this.canvasService.get(_id);
-    console.log(canvas.contributors, user.email, !canvas.contributors.includes(user.email));
     if (!canvas.contributors.includes(user.email)) {
       throw new ForbiddenException();
     }
