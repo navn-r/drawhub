@@ -2,14 +2,7 @@ import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
 import { UploadService } from '@drawhub/server/upload';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import {
-  Canvas,
-  CreateCanvasInput,
-  DeleteCanvasInput,
-  GetCanvasInput,
-  UpdateCanvasInput,
-  GetNewContributor,
-} from './canvas.schema';
+import { Canvas, CreateCanvasInput, DeleteCanvasInput, GetCanvasInput, UpdateCanvasInput } from './canvas.schema';
 import { CanvasService } from './canvas.service';
 
 @Resolver(() => Canvas)
