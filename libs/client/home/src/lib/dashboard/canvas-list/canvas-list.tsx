@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { Heading, HStack, VStack, Wrap, WrapItem } from '@chakra-ui/react';
 import { useGetAllCanvases } from '@drawhub/client/api';
 import { EmptyDisplay } from '@drawhub/client/ui';
@@ -25,7 +24,6 @@ const CardWithPreview = (props: Omit<CanvasCardProps, 'preview'>) => {
 };
 
 export function CanvasList() {
-  const { user } = useAuth0();
   const { isLoading, data, isRefetching } = useGetAllCanvases();
 
   const publicData = useMemo(() => {
@@ -39,8 +37,8 @@ export function CanvasList() {
     if (!data?.length) {
       return [];
     }
-    return data.filter(({ isPublic, contributors }) => !isPublic && contributors.includes(user?.email ?? ''));
-  }, [data, user]);
+    return data.filter(({ isPublic }) => !isPublic);
+  }, [data]);
 
   return isLoading || isRefetching ? (
     <CanvasSkeletonList />

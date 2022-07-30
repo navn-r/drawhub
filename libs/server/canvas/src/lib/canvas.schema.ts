@@ -4,6 +4,10 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type CanvasId = MongooseSchema.Types.ObjectId | string;
 
+export interface User {
+  email: string;
+}
+
 @ObjectType()
 @Schema({ timestamps: true })
 export class Canvas {
