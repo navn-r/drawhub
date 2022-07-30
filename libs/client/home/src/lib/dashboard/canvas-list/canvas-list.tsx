@@ -18,7 +18,7 @@ const CardWithPreview = (props: Omit<CanvasCardProps, 'preview'>) => {
   const preview = process.env['NX_AWS_URL'] + props._id + '.png?dummy=' + Date.now();
 
   return (
-    <WrapItem key={props._id}>
+    <WrapItem>
       <CanvasCard {...props} preview={preview} />
     </WrapItem>
   );

@@ -12,10 +12,9 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useCreateCanvas, useSaveContributor } from '@drawhub/client/api';
+import { useSaveContributor } from '@drawhub/client/api';
 import { useState } from 'react';
 import { FaPeopleCarry } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface InviteUserButtonProps {
@@ -24,9 +23,7 @@ export interface InviteUserButtonProps {
 
 export function InviteUserButton(props: InviteUserButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading } = useCreateCanvas();
-  const { mutateAsync, isLoading: isLoadingInvite, isSuccess } = useSaveContributor();
-  const navigate = useNavigate();
+  const { mutateAsync, isLoading: isLoadingInvite } = useSaveContributor();
   const [email, setEmail] = useState('');
 
   const onChangeId: React.ChangeEventHandler<HTMLInputElement> = (e) => {

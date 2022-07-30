@@ -1,21 +1,16 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
-// const addContributor = async (info: { canvasId: string; email: string }) => {
-//   const { data } = await axios.post(`/api/canvas/${info.canvasId}/${info.email}/contributor`);
-//   return data;
-// };
-
-const addContributor = async (canvas: { _id: string; contributors: string[] }) => {
+const saveContributor = async (canvas: { _id: string; contributors: string[] }) => {
   const {
     data: {
-      data: { addContributor: data },
+      data: { saveContributor: data },
     },
   } = await axios.post('/api/graphql', {
-    operationName: 'addContributor',
+    operationName: 'saveContributor',
     query: `
-      mutation addContributor($canvas: UpdateCanvasInput!) {
-        addContributor(payload: $canvas) {
+      mutation saveContributor($canvas: UpdateCanvasInput!) {
+        saveContributor(payload: $canvas) {
           _id,
           contributors
         }
@@ -25,14 +20,13 @@ const addContributor = async (canvas: { _id: string; contributors: string[] }) =
       canvas,
     },
   });
-  console.log(data);
   return data;
 };
 
 export function useSaveContributor() {
   const queryClient = useQueryClient();
 
-  return useMutation(addContributor, {
+  return useMutation(saveContributor, {
     onSuccess: () => {
       queryClient.invalidateQueries(['canvas']);
     },

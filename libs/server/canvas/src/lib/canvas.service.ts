@@ -36,7 +36,7 @@ export class CanvasService {
     );
   }
 
-  async addContributor(canvasId: CanvasId, email: string) {
+  async saveContributor(canvasId: CanvasId, email: string) {
     const query = await this.model.find({ _id: canvasId, contributors: { $in: [email] } });
 
     // contributor is already added

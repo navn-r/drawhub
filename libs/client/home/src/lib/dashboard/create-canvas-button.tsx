@@ -43,19 +43,6 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
     navigate('draw/' + canvasId);
   };
 
-  function Visibility() {
-    return (
-      <Center>
-        <RadioGroup onChange={setValue} value={value}>
-          <Stack direction="row">
-            <Radio value="1">Public</Radio>
-            <Radio value="2">Private</Radio>
-          </Stack>
-        </RadioGroup>
-      </Center>
-    );
-  }
-
   return (
     <>
       <Button
@@ -85,7 +72,14 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel htmlFor={'name'}>Canvas Visibility</FormLabel>
-                <Visibility />
+                <Center>
+                  <RadioGroup onChange={setValue} value={value}>
+                    <Stack direction="row">
+                      <Radio value="1">Public</Radio>
+                      <Radio value="2">Private</Radio>
+                    </Stack>
+                  </RadioGroup>
+                </Center>
               </FormControl>
             </VStack>
           </ModalBody>

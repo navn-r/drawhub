@@ -43,7 +43,7 @@ export class CanvasResolver {
   }
 
   @Mutation(() => Canvas)
-  async addContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
-    return this.canvasService.addContributor(_id, data['contributors'][0]);
+  async saveContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
+    return this.canvasService.saveContributor(_id, data['contributors'][0]);
   }
 }
