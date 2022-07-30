@@ -85,7 +85,15 @@ export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCa
           </Badge>
         ) : null}
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
-        <IconButton aria-label={'Edit canvas'} icon={<FaEdit />} />
+        {!isNew && (
+          <IconButton
+            aria-label={'Edit canvas'}
+            icon={<FaEdit />}
+            onClick={() => {
+              console.log('sitch this!');
+            }}
+          />
+        )}
       </HStack>
       <Skeleton w={'300px'} h={'192px'} display={imageLoading ? 'initial' : 'none'} borderRadius={10} />
       <AspectRatio w={'300px'} ratio={1250 / 800} display={imageLoading ? 'none' : 'initial'}>
