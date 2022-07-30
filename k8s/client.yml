@@ -27,9 +27,10 @@ spec:
     spec:
       containers:
         - name: client
-          image: drawhub/client:latest
-          imagePullPolicy: 'Never'
-          # image: ghcr.io/utscc09/drawhub/client:latest
-          # imagePullPolicy: "Always"
+          image: ghcr.io/utscc09/drawhub/client:latest
+          imagePullPolicy: 'Always'
+          envFrom:
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 80

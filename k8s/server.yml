@@ -35,13 +35,13 @@ spec:
         component: server
     spec:
       containers:
-        - name: client
-          image: drawhub/server:latest
-          imagePullPolicy: 'Never'
-          # image: ghcr.io/utscc09/drawhub/server:latest
-          # imagePullPolicy: "Always"
+        - name: server
+          image: ghcr.io/utscc09/drawhub/server:latest
+          imagePullPolicy: 'Always'
           envFrom:
             - configMapRef:
                 name: server-config
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 3333

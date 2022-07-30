@@ -3,11 +3,17 @@ kind: Ingress
 metadata:
   name: ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/server-snippets: |
+      location /socket.io {
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+      }
 spec:
-  ingressClassName: nginx-ingress
   rules:
-    - host: draw.hub
+    - host: localhost
       http:
         paths:
           - path: /
@@ -18,6 +24,13 @@ spec:
                 port:
                   number: 80
           - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: server-service
+                port:
+                  number: 3333
+          - path: /socket.io
             pathType: Prefix
             backend:
               service:
