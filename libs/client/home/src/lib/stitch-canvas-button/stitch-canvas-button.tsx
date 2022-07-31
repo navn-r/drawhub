@@ -1,5 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
+  Alert,
+  AlertIcon,
   Button,
   Center,
   FormControl,
@@ -21,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import { useStitchCanvas } from '@drawhub/client/api';
 import { useState } from 'react';
-import { FaEdit, FaPlus } from 'react-icons/fa';
+import { FaCodeBranch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
@@ -49,14 +51,18 @@ export function StitchCanvasButton(props: StitchCanvasButtonProps) {
 
   return (
     <>
-      <IconButton aria-label={'Edit canvas'} icon={<FaEdit />} onClick={onOpen} />
+      <IconButton aria-label={'Edit canvas'} icon={<FaCodeBranch />} onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Stitching Canvas</ModalHeader>
+          <ModalHeader>Stitch Canvas</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing={5}>
+              <Alert status="info">
+                <AlertIcon />
+                You cannot stitch a stitched canvas again.
+              </Alert>
               <FormControl isRequired>
                 <FormLabel htmlFor={'name'}>Name</FormLabel>
                 <Input
