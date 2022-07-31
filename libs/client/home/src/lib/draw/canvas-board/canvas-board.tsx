@@ -32,7 +32,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
 
     return {
       x: event.pageX - canvas.offsetLeft,
-      y: event.pageY - canvas.offsetTop + 30, // Custom Cursor pos. adjustment
+      y: event.pageY - canvas.offsetTop,
     };
   };
 

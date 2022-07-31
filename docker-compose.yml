@@ -67,8 +67,12 @@ services:
   redis:
     container_name: drawhub_redis
     image: redis:latest
+    volumes:
+      - redisdata:/var/lib/redis
     ports:
       - 6379:6379
+    networks:
+      - app
     restart: always
 
 networks:
@@ -79,3 +83,4 @@ networks:
 
 volumes:
   mongodata:
+  redisdata:

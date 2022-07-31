@@ -1,45 +1,36 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30" height="30"
-	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-<polygon style="fill:#FF9D49;" points="393.29,213.665 142.441,464.524 87.044,424.954 345.817,150.364 "/>
-<polygon style="fill:#FFCC75;" points="353.73,158.277 87.044,424.954 47.473,369.557 298.333,118.708 "/>
-<polygon style="fill:#BD1515;" points="512,94.965 440.78,166.185 377.475,118.708 464.522,47.486 "/>
-<polygon style="fill:#F2484B;" points="464.516,47.482 385.382,126.615 345.817,71.224 417.038,0.002 "/>
-<g>
-	
-		<rect x="335.974" y="75.292" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 731.5841 -18.1559)" style="fill:#082947;" width="67.157" height="134.292"/>
-	<polygon style="fill:#082947;" points="71.22,488.261 0,511.998 23.736,440.776 63.305,448.692 	"/>
-</g>
-<polygon style="fill:#F2EBD9;" points="47.473,369.557 23.736,440.776 71.22,488.261 142.441,464.524 "/>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
+<?xml version="1.0"?>
+<svg width="30" height="30" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" version="1.1" xml:space="preserve">
+ <g class="layer">
+  <title>Layer 1</title>
+  <g id="svg_9"/>
+  <g id="svg_10"/>
+  <g id="svg_11"/>
+  <g id="svg_12"/>
+  <g id="svg_13"/>
+  <g id="svg_14"/>
+  <g id="svg_15"/>
+  <g id="svg_16"/>
+  <g id="svg_17"/>
+  <g id="svg_18"/>
+  <g id="svg_19"/>
+  <g id="svg_20"/>
+  <g id="svg_21"/>
+  <g id="svg_22"/>
+  <g id="svg_23"/>
+  <text fill="#000000" fill-opacity="null" font-family="Serif" font-size="24" id="svg_24" stroke="null" stroke-dasharray="null" stroke-linejoin="null" stroke-opacity="null" stroke-width="0" text-anchor="middle" x="-819" xml:space="preserve" y="-88.67"/>
+  <g id="svg_25">
+   <g id="svg_26" transform="rotate(90.0439, 256, 256)">
+    <polygon fill="#FF9D49" id="svg_1" points="394.2900085449219,213.6649932861328 143.4409942626953,464.52398681640625 88.04399871826172,424.9540100097656 346.8169860839844,150.36399841308594 "/>
+    <polygon fill="#FFCC75" id="svg_2" points="353.73,158.277 87.044,424.954 47.473,369.557 298.333,118.708 "/>
+    <polygon fill="#BD1515" id="svg_3" points="512,94.965 440.78,166.185 377.475,118.708 464.522,47.486 "/>
+    <polygon fill="#F2484B" id="svg_4" points="464.516,47.482 385.382,126.615 345.817,71.224 417.038,0.002 "/>
+    <g id="svg_5">
+     <rect fill="#082947" height="134.29" id="svg_6" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 731.5841 -18.1559)" width="67.16" x="335.97" y="75.29"/>
+     <polygon fill="#082947" id="svg_7" points="71.22,488.261 0,511.998 23.736,440.776 63.305,448.692  "/>
+    </g>
+    <polygon fill="#F2EBD9" id="svg_8" points="47.473,369.557 23.736,440.776 71.22,488.261 142.441,464.524 "/>
+   </g>
+  </g>
+ </g>
+
 </svg>
