@@ -29,11 +29,12 @@ import { ServerEmailModule } from '@drawhub/server/email';
     AuthModule,
     CanvasModule,
     UploadModule,
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.forRootAsync({
+      imports: [ConfigModule.forRoot({ envFilePath: `.env` })],
+      useFactory: async (configService: ConfigService) => ({
+        url: configService.get<string>('REDIS_URL'),
+      }),
+      inject: [ConfigService],
     }),
     ServerEmailModule,
   ],
