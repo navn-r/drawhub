@@ -62,7 +62,7 @@ export function Sidebar(props: SidebarProps) {
       </HStack>
       <SidebarItem name={'Draw'} path={'draw/*'} special />
       <SidebarItem name={'Dashboard'} path={''} />
-      <SidebarItem name={'Profile'} path={'profile'} />
+      <SidebarItem name={'Premium'} path={'premium'} />
     </VStack>
   );
 }

@@ -88,7 +88,7 @@ export function StitchCanvasButton(props: StitchCanvasButtonProps) {
           </ModalBody>
           <ModalFooter>
             <Button isLoading={isLoading} colorScheme={'green'} mr={3} isDisabled={!name.trim()} onClick={stitchCanvas}>
-              Submit
+              Stitch
             </Button>
           </ModalFooter>
         </ModalContent>
