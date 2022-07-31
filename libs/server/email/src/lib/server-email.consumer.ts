@@ -9,7 +9,6 @@ export class EmailConsumer {
 
   @Process('send-email')
   async sendEmail(job: Job) {
-    // Send the email from here.
     await this.mailService
       .sendMail({
         to: job?.data.owner,
@@ -20,7 +19,6 @@ export class EmailConsumer {
       .catch((e) => {
         console.log(e);
       });
-    console.log('SENT! ', job.data.owner);
     return 'success';
   }
 }
