@@ -29,6 +29,10 @@ export class Canvas {
   @Field(() => Boolean, { defaultValue: true })
   @Prop({ default: true })
   isPublic: boolean;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @Prop({ default: false })
+  isStitched: boolean;
 }
 
 export type CanvasDocument = Canvas & Document;
@@ -64,10 +68,25 @@ export class UpdateCanvasInput {
 
   @Field(() => Boolean, { nullable: true })
   isPublic?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  isStitched?: boolean;
 }
 
 @InputType()
 export class GetCanvasInput {
   @Field(() => String)
   _id: CanvasId;
+}
+
+@InputType()
+export class StitchedCanvasInput {
+  @Field(() => String)
+  _id: CanvasId;
+
+  @Field(() => String)
+  name: string;
+
+  @Field(() => Boolean)
+  isPublic: boolean;
 }

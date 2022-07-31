@@ -27,6 +27,7 @@ import { useRef, useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import StitchCanvasButton from '../../stitch-canvas-button/stitch-canvas-button';
 
 const DeleteCanvasPopover: React.FC<{ deleteCanvas: () => void }> = ({ deleteCanvas }) => {
   return (
@@ -85,15 +86,7 @@ export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCa
           </Badge>
         ) : null}
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
-        {!isNew && (
-          <IconButton
-            aria-label={'Edit canvas'}
-            icon={<FaEdit />}
-            onClick={() => {
-              console.log('sitch this!');
-            }}
-          />
-        )}
+        {!isNew && <StitchCanvasButton canvasId={_id} />}
       </HStack>
       <Skeleton w={'300px'} h={'192px'} display={imageLoading ? 'initial' : 'none'} borderRadius={10} />
       <AspectRatio w={'300px'} ratio={1250 / 800} display={imageLoading ? 'none' : 'initial'}>
