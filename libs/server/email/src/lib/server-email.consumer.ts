@@ -10,18 +10,17 @@ export class EmailConsumer {
   @Process('send-email')
   async sendEmail(job: Job) {
     // Send the email from here.
-    console.log(job.data);
     await this.mailService
       .sendMail({
-        to: job?.data.email,
+        to: job?.data.owner,
         from: 'drawhubnoreply@gmail.com',
-        subject: 'Your canvas has been Stiched!',
-        text: `Your canvas CANVAS_NAME_HERE has been stiched`,
+        subject: `Your canvas ${job.data.name} has been Stiched!`,
+        text: `Hey ${job.data.owner}!\n Your canvas ${job.data.name} has been stiched by ${job.data.email}!`,
       })
       .catch((e) => {
         console.log(e);
       });
-    console.log('SENT!');
+    console.log('SENT! ', job.data.owner);
     return 'success';
   }
 }

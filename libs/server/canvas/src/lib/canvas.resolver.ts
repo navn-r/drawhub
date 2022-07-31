@@ -60,8 +60,18 @@ export class CanvasResolver {
   }
 
   @Mutation(() => StichCanvasOutput)
-  async addEmailQueue(@CurrentUser() { email }: User) {
-    this.emailService.add(email);
+  async addEmailQueue(@CurrentUser() { email }: User, @Args('payload') { _id }: GetCanvasInput) {
+    const canvas = await this.canvasService.get(_id);
+    if (!canvas.contributors.includes(email)) {
+      throw new ForbiddenException();
+    }
+
+    const filteredContributors = canvas.contributors.filter((owner) => owner !== email);
+
+    filteredContributors.forEach((owner) => {
+      this.emailService.add(owner, email, canvas.name);
+    });
+
     return {
       success: true,
     };
