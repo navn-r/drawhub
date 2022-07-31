@@ -1,7 +1,7 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Code, Flex, Heading, Skeleton } from '@chakra-ui/react';
 import { useGetCanvas } from '@drawhub/client/api';
 import { useParams } from 'react-router-dom';
-import { InviteUserButton } from '../invite-user-button/invite-user-button';
+import { InviteUserButton } from './invite-user-button/invite-user-button';
 import CanvasBoard from './canvas-board/canvas-board';
 
 /* eslint-disable-next-line */

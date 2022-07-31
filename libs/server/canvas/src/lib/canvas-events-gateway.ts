@@ -46,7 +46,7 @@ export class CanvasEventsGateway implements OnGatewayInit {
   async handleJoinRoom(client: Socket, payload: SocketPayload<{ email: string }>) {
     const canvas = await this.canvasService.get(payload.canvasId);
     if (!canvas.isPublic && !canvas.contributors.includes(payload.email)) {
-      this.logger.log(`[${payload.canvasId}] Unauthorized user <${payload.email}>`);
+      this.logger.log(`[${payload.canvasId}] UNAUTHORIZED USER <${payload.email}>`);
       return;
     }
     this.logger.log(`[${payload.canvasId}] ROOM JOIN <${payload.email}>`);

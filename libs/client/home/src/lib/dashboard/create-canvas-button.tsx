@@ -65,7 +65,7 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
                 <Input
                   id={'name'}
                   type={'text'}
-                  placeholder={`eg. ${user?.given_name}'s new masterpeice`}
+                  placeholder={`eg. ${user?.given_name}'s new masterpiece`}
                   value={name}
                   onChange={onChangeName}
                 />

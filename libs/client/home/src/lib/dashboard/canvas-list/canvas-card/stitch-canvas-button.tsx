@@ -68,7 +68,7 @@ export function StitchCanvasButton(props: StitchCanvasButtonProps) {
                 <Input
                   id={'name'}
                   type={'text'}
-                  placeholder={`eg. ${user?.given_name}'s copied masterpeice`}
+                  placeholder={`eg. ${user?.given_name}'s copied masterpiece`}
                   value={name}
                   onChange={onChangeName}
                 />

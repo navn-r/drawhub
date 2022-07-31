@@ -24,10 +24,10 @@ import {
 } from '@chakra-ui/react';
 import { useDeleteCanvas } from '@drawhub/client/api';
 import { useRef, useState } from 'react';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import StitchCanvasButton from '../../stitch-canvas-button/stitch-canvas-button';
+import StitchCanvasButton from './stitch-canvas-button';
 
 const DeleteCanvasPopover: React.FC<{ deleteCanvas: () => void }> = ({ deleteCanvas }) => {
   return (
