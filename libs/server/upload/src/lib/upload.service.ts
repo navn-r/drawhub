@@ -46,7 +46,7 @@ export class UploadService {
     return await s3.getObject(params).promise();
   }
 
-  async stitchImages(originalCanvasId: string, stitchedCanvasId: string) {
+  async stitchImage(originalCanvasId: string, stitchedCanvasId: string) {
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       CopySource: `${process.env.AWS_BUCKET_NAME}/${originalCanvasId}.png`,

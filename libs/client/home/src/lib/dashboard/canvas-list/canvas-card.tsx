@@ -64,9 +64,10 @@ export interface CanvasCardProps {
   contributors: string[];
   preview: string;
   isNew: boolean;
+  isStitched: boolean;
 }
 
-export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCardProps) {
+export function CanvasCard({ _id, name, contributors, preview, isNew, isStitched }: CanvasCardProps) {
   const [imageLoading, setImageLoading] = useState(true);
   const navigate = useNavigate();
   const { mutate } = useDeleteCanvas();
@@ -85,8 +86,13 @@ export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCa
             NEW
           </Badge>
         ) : null}
+        {isStitched && (
+          <Badge fontSize={'sm'} colorScheme={'purple'}>
+            stitched
+          </Badge>
+        )}
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
-        {!isNew && <StitchCanvasButton canvasId={_id} />}
+        {!isNew && !isStitched && <StitchCanvasButton canvasId={_id} />}
       </HStack>
       <Skeleton w={'300px'} h={'192px'} display={imageLoading ? 'initial' : 'none'} borderRadius={10} />
       <AspectRatio w={'300px'} ratio={1250 / 800} display={imageLoading ? 'none' : 'initial'}>

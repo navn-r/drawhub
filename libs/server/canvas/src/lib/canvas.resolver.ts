@@ -48,7 +48,7 @@ export class CanvasResolver {
       isStitched: true,
     });
 
-    await this.uploadService.stitchImages(_id as string, stitchedCanvas._id as string);
+    await this.uploadService.stitchImage(_id as string, stitchedCanvas._id as string);
 
     return stitchedCanvas;
   }
