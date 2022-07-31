@@ -86,7 +86,7 @@ export function Landing(props: LandingProps) {
         <Stack maxW={'60ch'} spacing={10}>
           <Text fontSize={'xl'} color={'gray.500'}>
             DrawHub is the easiest and fastest way to get your ideas onto a digital canvas. Work alone, or with others
-            in realtime, to create and share digital masterpeices straight to the cloud.
+            in realtime, to create and share digital masterpieces straight to the cloud.
           </Text>
           <Skeleton isLoaded={!isLoading} w={'max-content'} h={12} display={'flex'}>
             {isAuthenticated ? (

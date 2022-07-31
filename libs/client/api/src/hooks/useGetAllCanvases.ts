@@ -7,6 +7,7 @@ interface Canvas {
   name: string;
   contributors: string[];
   isNew: boolean;
+  isStitched: boolean;
 }
 
 const query = async () => {
@@ -20,7 +21,8 @@ const query = async () => {
           _id,
           name,
           isNew,
-          isPublic
+          isPublic,
+          isStitched,
           contributors
         }
       }

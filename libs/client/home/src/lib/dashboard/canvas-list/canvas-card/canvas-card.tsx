@@ -24,9 +24,10 @@ import {
 } from '@chakra-ui/react';
 import { useDeleteCanvas } from '@drawhub/client/api';
 import { useRef, useState } from 'react';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import StitchCanvasButton from './stitch-canvas-button';
 
 const DeleteCanvasPopover: React.FC<{ deleteCanvas: () => void }> = ({ deleteCanvas }) => {
   return (
@@ -63,9 +64,10 @@ export interface CanvasCardProps {
   contributors: string[];
   preview: string;
   isNew: boolean;
+  isStitched: boolean;
 }
 
-export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCardProps) {
+export function CanvasCard({ _id, name, contributors, preview, isNew, isStitched }: CanvasCardProps) {
   const [imageLoading, setImageLoading] = useState(true);
   const navigate = useNavigate();
   const { mutate } = useDeleteCanvas();
@@ -84,8 +86,13 @@ export function CanvasCard({ _id, name, contributors, preview, isNew }: CanvasCa
             NEW
           </Badge>
         ) : null}
+        {isStitched && (
+          <Badge fontSize={'sm'} colorScheme={'purple'}>
+            stitched
+          </Badge>
+        )}
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />
-        <IconButton aria-label={'Edit canvas'} icon={<FaEdit />} />
+        {!isNew && !isStitched && <StitchCanvasButton canvasId={_id} />}
       </HStack>
       <Skeleton w={'300px'} h={'192px'} display={imageLoading ? 'initial' : 'none'} borderRadius={10} />
       <AspectRatio w={'300px'} ratio={1250 / 800} display={imageLoading ? 'none' : 'initial'}>

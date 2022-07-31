@@ -45,4 +45,13 @@ export class UploadService {
     // New canvases will not have an s3 object until saved
     return await s3.getObject(params).promise();
   }
+
+  async stitchImage(originalCanvasId: string, stitchedCanvasId: string) {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      CopySource: `${process.env.AWS_BUCKET_NAME}/${originalCanvasId}.png`,
+      Key: stitchedCanvasId + '.png',
+    };
+    return s3.copyObject(params).promise();
+  }
 }

@@ -2,8 +2,8 @@ import { Heading, HStack, VStack, Wrap, WrapItem } from '@chakra-ui/react';
 import { useGetAllCanvases } from '@drawhub/client/api';
 import { EmptyDisplay } from '@drawhub/client/ui';
 import { useMemo } from 'react';
-import { CanvasCard, CanvasCardProps } from './canvas-card';
-import CanvasSkeleton from './canvas-skeleton';
+import { CanvasCard, CanvasCardProps } from './canvas-card/canvas-card';
+import CanvasSkeleton from './canvas-card/canvas-skeleton';
 
 const CanvasSkeletonList: React.FC = () => (
   <HStack spacing={10}>

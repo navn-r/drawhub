@@ -29,10 +29,21 @@ export class Canvas {
   @Field(() => Boolean, { defaultValue: true })
   @Prop({ default: true })
   isPublic: boolean;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @Prop({ default: false })
+  isStitched: boolean;
 }
 
 export type CanvasDocument = Canvas & Document;
 export const CanvasSchema = SchemaFactory.createForClass(Canvas);
+
+@InputType()
+class CanvasInput {
+  @Field(() => String)
+  _id: CanvasId;
+}
+
 @InputType()
 export class CreateCanvasInput {
   @Field(() => String)
@@ -43,16 +54,19 @@ export class CreateCanvasInput {
 }
 
 @InputType()
-export class DeleteCanvasInput {
+export class StitchedCanvasInput extends CreateCanvasInput {
   @Field(() => String)
   _id: CanvasId;
 }
 
 @InputType()
-export class UpdateCanvasInput {
-  @Field(() => String)
-  _id: CanvasId;
+export class DeleteCanvasInput extends CanvasInput {}
 
+@InputType()
+export class GetCanvasInput extends CanvasInput {}
+
+@InputType()
+export class UpdateCanvasInput extends CanvasInput {
   @Field(() => String, { nullable: true })
   name?: string;
 
@@ -64,10 +78,7 @@ export class UpdateCanvasInput {
 
   @Field(() => Boolean, { nullable: true })
   isPublic?: boolean;
-}
 
-@InputType()
-export class GetCanvasInput {
-  @Field(() => String)
-  _id: CanvasId;
+  @Field(() => Boolean, { nullable: true })
+  isStitched?: boolean;
 }

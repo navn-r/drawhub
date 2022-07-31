@@ -1,9 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
+  Alert,
+  AlertIcon,
   Button,
   Center,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -18,19 +21,21 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import { useCreateCanvas } from '@drawhub/client/api';
+import { useStitchCanvas } from '@drawhub/client/api';
 import { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaCodeBranch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
-export interface CreateCanvasButtonProps {}
+export interface StitchCanvasButtonProps {
+  canvasId: string;
+}
 
-export function CreateCanvasButton(props: CreateCanvasButtonProps) {
+export function StitchCanvasButton(props: StitchCanvasButtonProps) {
   const { user } = useAuth0();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutateAsync, isLoading } = useCreateCanvas();
+  const { mutateAsync, isLoading } = useStitchCanvas();
   const [name, setName] = useState('');
   const [value, setValue] = useState('1');
 
@@ -38,34 +43,32 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
     setName(e.target?.value);
   };
 
-  const createCanvas = async () => {
-    const { _id: canvasId } = await mutateAsync({ name: name.trim(), isPublic: value === '1' });
+  const stitchCanvas = async () => {
+    const { _id: canvasId } = await mutateAsync({ _id: props.canvasId, name: name.trim(), isPublic: value === '1' });
     navigate('draw/' + canvasId);
+    onClose();
   };
 
   return (
     <>
-      <Button
-        onClick={onOpen}
-        leftIcon={<FaPlus />}
-        bgGradient={'linear-gradient(90deg, rgba(131, 58, 180, .9) 0%, rgba(253, 29, 29, .9) 100%)'}
-        colorScheme={'light'}
-      >
-        New
-      </Button>
+      <IconButton aria-label={'Edit canvas'} icon={<FaCodeBranch />} onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create New Canvas</ModalHeader>
+          <ModalHeader>Stitch Canvas</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing={5}>
+              <Alert status="info">
+                <AlertIcon />
+                You cannot stitch a stitched canvas again.
+              </Alert>
               <FormControl isRequired>
                 <FormLabel htmlFor={'name'}>Name</FormLabel>
                 <Input
                   id={'name'}
                   type={'text'}
-                  placeholder={`eg. ${user?.given_name}'s new masterpiece`}
+                  placeholder={`eg. ${user?.given_name}'s copied masterpiece`}
                   value={name}
                   onChange={onChangeName}
                 />
@@ -84,7 +87,7 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button isLoading={isLoading} colorScheme={'green'} mr={3} isDisabled={!name.trim()} onClick={createCanvas}>
+            <Button isLoading={isLoading} colorScheme={'green'} mr={3} isDisabled={!name.trim()} onClick={stitchCanvas}>
               Submit
             </Button>
           </ModalFooter>
@@ -94,4 +97,4 @@ export function CreateCanvasButton(props: CreateCanvasButtonProps) {
   );
 }
 
-export default CreateCanvasButton;
+export default StitchCanvasButton;
