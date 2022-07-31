@@ -6,6 +6,10 @@ import { InjectQueue } from '@nestjs/bull';
 export class ServerEmailService {
   constructor(@InjectQueue('email') private emailQueue: Queue) {}
   add(owner: string, email: string, name: string): void {
-    this.emailQueue.add('send-email', { owner: owner, email: email, name: name });
+    this.emailQueue.add('send-email', { owner, email, name });
+  }
+
+  invite(email: string, canvasName: string, canvasId: string) {
+    this.emailQueue.add('send-invite', { email, canvasName, canvasId });
   }
 }

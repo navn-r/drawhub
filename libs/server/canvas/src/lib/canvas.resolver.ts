@@ -87,6 +87,13 @@ export class CanvasResolver {
 
   @Mutation(() => Canvas)
   async saveContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
-    return this.canvasService.saveContributor(_id, data['contributors'][0]);
+    const canvas = await this.canvasService.get(_id);
+    const email = data['contributors'][0];
+    const saveContributor = await this.canvasService.saveContributor(_id, email);
+    if (!saveContributor) {
+      return canvas;
+    }
+    this.emailService.invite(email, canvas.name, canvas._id as string);
+    return saveContributor;
   }
 }
