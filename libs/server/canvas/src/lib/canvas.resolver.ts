@@ -1,4 +1,5 @@
 import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
+import { ServerEmailService } from '@drawhub/server/email';
 import { UploadService } from '@drawhub/server/upload';
 import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
@@ -7,13 +8,11 @@ import {
   CreateCanvasInput,
   DeleteCanvasInput,
   GetCanvasInput,
-  UpdateCanvasInput,
   StitchedCanvasInput,
-  StichCanvasOutput,
+  UpdateCanvasInput,
   User,
 } from './canvas.schema';
 import { CanvasService } from './canvas.service';
-import { ServerEmailService } from '@drawhub/server/email';
 
 @Resolver(() => Canvas)
 @UseGuards(GraphqlAuthGuard)
@@ -47,6 +46,11 @@ export class CanvasResolver {
   async stitchCanvas(@CurrentUser() { email }: User, @Args('payload') payload: StitchedCanvasInput) {
     const { _id, ...data } = payload;
 
+    const canvas = await this.canvasService.get(_id);
+    if (!canvas.isPublic && !canvas.contributors.includes(email)) {
+      throw new ForbiddenException();
+    }
+
     const stitchedCanvas = await this.canvasService.create({
       ...data,
       contributors: [email],
@@ -56,25 +60,13 @@ export class CanvasResolver {
 
     await this.uploadService.stitchImage(_id as string, stitchedCanvas._id as string);
 
-    return stitchedCanvas;
-  }
-
-  @Mutation(() => StichCanvasOutput)
-  async addEmailQueue(@CurrentUser() { email }: User, @Args('payload') { _id }: GetCanvasInput) {
-    const canvas = await this.canvasService.get(_id);
-    if (!canvas.contributors.includes(email)) {
-      throw new ForbiddenException();
-    }
-
     const filteredContributors = canvas.contributors.filter((owner) => owner !== email);
 
     filteredContributors.forEach((owner) => {
       this.emailService.add(owner, email, canvas.name);
     });
 
-    return {
-      success: true,
-    };
+    return stitchedCanvas;
   }
 
   @Mutation(() => Canvas)

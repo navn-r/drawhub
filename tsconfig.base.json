@@ -22,7 +22,6 @@
       "@drawhub/server/auth": ["libs/server/auth/src/index.ts"],
       "@drawhub/server/canvas": ["libs/server/canvas/src/index.ts"],
       "@drawhub/server/email": ["libs/server/email/src/index.ts"],
-      "@drawhub/server/mailer": ["libs/server/mailer/src/index.ts"],
       "@drawhub/server/upload": ["libs/server/upload/src/index.ts"]
     }
   },
