@@ -3,8 +3,8 @@ import { ApiProvider } from '@drawhub/client/api';
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from '../components/sidebar';
 import { Dashboard } from './dashboard/dashboard';
-import Premium from './dashboard/premium/premium';
 import { Draw } from './draw/draw';
+import Premium from './premium/premium';
 
 /* eslint-disable-next-line */
 export interface HomeProps {}

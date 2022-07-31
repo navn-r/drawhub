@@ -13,9 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { useGetCanvas } from '@drawhub/client/api';
 import { useParams } from 'react-router-dom';
-import { InviteUserButton } from './invite-user-button/invite-user-button';
 import CanvasBoard from './canvas-board/canvas-board';
-import { Key } from 'react';
+import { InviteUserButton } from './invite-user-button/invite-user-button';
 
 /* eslint-disable-next-line */
 export interface DrawProps {}
@@ -48,7 +47,7 @@ export function Draw(props: DrawProps) {
             <InviteUserButton canvasId={canvasId} contributors={data?.canvas?.contributors} />
           ) : null}
           <AvatarGroup size={'md'} max={4}>
-            {data?.canvas?.contributors.map((name: string | undefined) => (
+            {data?.canvas?.contributors.map((name: string) => (
               // No duplicate contributor emails
               <Avatar key={name} name={name} color={'white'} />
             ))}

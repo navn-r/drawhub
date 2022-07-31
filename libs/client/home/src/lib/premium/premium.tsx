@@ -78,11 +78,11 @@ export default function Premium() {
               <List spacing={3} textAlign="start" px={12}>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
-                  limited to 10 canvases
+                  Limited to 10 canvases
                 </ListItem>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
-                  limited to 2 collaborators per canvas
+                  Limited to 2 contributors per canvas
                 </ListItem>
                 <ListItem>
                   <ListIcon as={VscError} color="red.500" />
@@ -133,11 +133,11 @@ export default function Premium() {
                 <List spacing={3} textAlign="start" px={12}>
                   <ListItem>
                     <ListIcon as={FaCheckCircle} color="green.500" />
-                    limited to 50 canvases
+                    Limited to 50 canvases
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FaCheckCircle} color="green.500" />
-                    limited to 5 collaborators per canvas
+                    Limited to 5 contributors per canvas
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FaCheckCircle} color="green.500" />
@@ -162,7 +162,7 @@ export default function Premium() {
                   $
                 </Text>
                 <Text fontSize="5xl" fontWeight="900">
-                  70
+                  69
                 </Text>
                 <Text fontSize="3xl" color="gray.500">
                   /month
@@ -177,7 +177,7 @@ export default function Premium() {
                 </ListItem>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
-                  Unlimited collaborators
+                  Unlimited contributors
                 </ListItem>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
