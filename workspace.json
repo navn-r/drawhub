@@ -11,6 +11,7 @@
     "server-auth": "libs/server/auth",
     "server-canvas": "libs/server/canvas",
     "server-email": "libs/server/email",
+    "server-mailer": "libs/server/mailer",
     "server-upload": "libs/server/upload"
   }
 }

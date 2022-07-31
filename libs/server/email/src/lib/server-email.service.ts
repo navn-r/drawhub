@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { InjectQueue, Processor, Process } from '@nestjs/bull';
-import { Job } from 'bull';
+import { InjectQueue } from '@nestjs/bull';
 
 @Injectable()
 export class ServerEmailService {

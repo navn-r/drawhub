@@ -1,15 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ServerEmailService } from './server-email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
-
-import { BullModule } from '@nestjs/bull';
-import { EmailConsumer } from './server-email.consumer';
+import { ServerMailerService } from './server-mailer.service';
 
 @Module({
   imports: [
-    BullModule.registerQueue({
-      name: 'email',
-    }),
     MailerModule.forRoot({
       transport: {
         host: process.env['EMAIL_SERVER'],
@@ -21,7 +15,7 @@ import { EmailConsumer } from './server-email.consumer';
     }),
   ],
   controllers: [],
-  providers: [ServerEmailService, EmailConsumer],
-  exports: [ServerEmailService],
+  providers: [ServerMailerService],
+  exports: [ServerMailerService],
 })
-export class ServerEmailModule {}
+export class ServerMailerModule {}
