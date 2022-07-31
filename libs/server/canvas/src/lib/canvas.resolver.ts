@@ -1,4 +1,5 @@
 import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
+import { ServerEmailService } from '@drawhub/server/email';
 import { UploadService } from '@drawhub/server/upload';
 import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
@@ -7,8 +8,8 @@ import {
   CreateCanvasInput,
   DeleteCanvasInput,
   GetCanvasInput,
-  UpdateCanvasInput,
   StitchedCanvasInput,
+  UpdateCanvasInput,
   User,
 } from './canvas.schema';
 import { CanvasService } from './canvas.service';
@@ -16,7 +17,11 @@ import { CanvasService } from './canvas.service';
 @Resolver(() => Canvas)
 @UseGuards(GraphqlAuthGuard)
 export class CanvasResolver {
-  constructor(private canvasService: CanvasService, private uploadService: UploadService) {}
+  constructor(
+    private canvasService: CanvasService,
+    private uploadService: UploadService,
+    private emailService: ServerEmailService
+  ) {}
 
   @Query(() => [Canvas])
   async canvases(@CurrentUser() { email }: User) {
@@ -41,6 +46,11 @@ export class CanvasResolver {
   async stitchCanvas(@CurrentUser() { email }: User, @Args('payload') payload: StitchedCanvasInput) {
     const { _id, ...data } = payload;
 
+    const canvas = await this.canvasService.get(_id);
+    if (!canvas.isPublic && !canvas.contributors.includes(email)) {
+      throw new ForbiddenException();
+    }
+
     const stitchedCanvas = await this.canvasService.create({
       ...data,
       contributors: [email],
@@ -49,6 +59,12 @@ export class CanvasResolver {
     });
 
     await this.uploadService.stitchImage(_id as string, stitchedCanvas._id as string);
+
+    const filteredContributors = canvas.contributors.filter((owner) => owner !== email);
+
+    filteredContributors.forEach((owner) => {
+      this.emailService.add(owner, email, canvas.name);
+    });
 
     return stitchedCanvas;
   }
@@ -71,6 +87,13 @@ export class CanvasResolver {
 
   @Mutation(() => Canvas)
   async saveContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
-    return this.canvasService.saveContributor(_id, data['contributors'][0]);
+    const canvas = await this.canvasService.get(_id);
+    const email = data['contributors'][0];
+    const saveContributor = await this.canvasService.saveContributor(_id, email);
+    if (!saveContributor) {
+      return canvas;
+    }
+    this.emailService.invite(email, canvas.name, canvas._id as string);
+    return saveContributor;
   }
 }

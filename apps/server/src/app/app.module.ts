@@ -8,6 +8,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BullModule } from '@nestjs/bull';
+import { ServerEmailModule } from '@drawhub/server/email';
 
 @Module({
   imports: [
@@ -27,6 +29,14 @@ import { AppService } from './app.service';
     AuthModule,
     CanvasModule,
     UploadModule,
+    BullModule.forRootAsync({
+      imports: [ConfigModule.forRoot({ envFilePath: `.env` })],
+      useFactory: async (configService: ConfigService) => ({
+        url: configService.get<string>('REDIS_URL'),
+      }),
+      inject: [ConfigService],
+    }),
+    ServerEmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

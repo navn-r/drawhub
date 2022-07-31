@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -19,6 +20,7 @@ import { FaPeopleCarry } from 'react-icons/fa';
 /* eslint-disable-next-line */
 export interface InviteUserButtonProps {
   canvasId: string;
+  contributors?: string[];
 }
 
 export function InviteUserButton(props: InviteUserButtonProps) {
@@ -35,10 +37,15 @@ export function InviteUserButton(props: InviteUserButtonProps) {
     onClose();
   };
 
+  const isInvalidEmail = props.contributors?.includes(email.trim());
+
   return (
     <>
       <Button
-        onClick={onOpen}
+        onClick={() => {
+          setEmail('');
+          onOpen();
+        }}
         leftIcon={<FaPeopleCarry />}
         bgGradient={'linear-gradient(90deg, rgb(255 89 148 / 90%) 0%, rgb(60 25 84 / 90%) 100%)'}
         colorScheme={'light'}
@@ -51,7 +58,7 @@ export function InviteUserButton(props: InviteUserButtonProps) {
           <ModalHeader>Invite Collaborators</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={isInvalidEmail}>
               <FormLabel htmlFor={'name'}>Email</FormLabel>
               <Input
                 id={'name'}
@@ -61,6 +68,7 @@ export function InviteUserButton(props: InviteUserButtonProps) {
                 onChange={onChangeId}
                 required={true}
               />
+              {isInvalidEmail ? <FormErrorMessage>Email cannot be an existing contributor.</FormErrorMessage> : null}
             </FormControl>
           </ModalBody>
 
@@ -69,7 +77,7 @@ export function InviteUserButton(props: InviteUserButtonProps) {
               isLoading={isLoadingInvite}
               colorScheme={'green'}
               mr={3}
-              isDisabled={!email.trim()}
+              isDisabled={!email.trim() || isInvalidEmail}
               onClick={inviteEmail}
             >
               Submit

@@ -88,7 +88,7 @@ export function CanvasCard({ _id, name, contributors, preview, isNew, isStitched
         ) : null}
         {isStitched && (
           <Badge fontSize={'sm'} colorScheme={'purple'}>
-            stitched
+            STITCHED
           </Badge>
         )}
         <DeleteCanvasPopover deleteCanvas={() => mutate(_id)} />

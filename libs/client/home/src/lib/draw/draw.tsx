@@ -31,7 +31,9 @@ export function Draw(props: DrawProps) {
           Canvas ID: <Code as={'pre'}>{canvasId}</Code>
         </Skeleton>
         <Skeleton isLoaded={!isLoading}>
-          {!data?.canvas?.isPublic && canvasId ? <InviteUserButton canvasId={canvasId} /> : null}
+          {!data?.canvas?.isPublic && canvasId ? (
+            <InviteUserButton canvasId={canvasId} contributors={data?.canvas?.contributors} />
+          ) : null}
         </Skeleton>
       </Flex>
       {!isLoading && canvasId ? <CanvasBoard width={1250} height={800} canvasId={canvasId} /> : null}
