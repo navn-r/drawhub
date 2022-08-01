@@ -27,8 +27,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: unknown): { email: string } {
+  validate(payload: unknown): { email: string; userId: string } {
     const email = payload['https://drawhub.com/email'];
-    return { email };
+    const userId = payload['sub'];
+
+    return { email, userId };
   }
 }
