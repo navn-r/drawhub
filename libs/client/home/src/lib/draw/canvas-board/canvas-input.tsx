@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useCallback, useRef } from 'react';
 import { FaEraser, FaFileImage, FaPencilAlt, FaSave, FaTrashAlt } from 'react-icons/fa';
+import { DiGoogleDrive } from 'react-icons/di';
 
 export interface CanvasInputProps {
   width: number;
@@ -19,6 +20,7 @@ export interface CanvasInputProps {
   setBrushSize: Dispatch<SetStateAction<number>>;
   uploadImage: (image: ChangeEvent<HTMLInputElement>) => void;
   saveCanvas: () => void;
+  uploadToDrive: () => void;
   isSaveLoading: boolean;
 }
 
@@ -59,6 +61,7 @@ export function CanvasInput({
   uploadImage,
   clearCanvas,
   saveCanvas,
+  uploadToDrive,
   isSaveLoading,
 }: CanvasInputProps) {
   const colorPickerRef = useRef<HTMLInputElement>(null);
@@ -125,7 +128,7 @@ export function CanvasInput({
         aria-label={'Clear canvas'}
       />
       <IconButton
-        colorScheme={'green'}
+        colorScheme={'purple'}
         onClick={() => fileInputRef?.current?.click()}
         size={'lg'}
         icon={<FaFileImage />}
@@ -136,6 +139,14 @@ export function CanvasInput({
         onClick={saveCanvas}
         size={'lg'}
         icon={<FaSave />}
+        isLoading={isSaveLoading}
+        aria-label={'Save canvas'}
+      />
+      <IconButton
+        colorScheme={'green'}
+        onClick={uploadToDrive}
+        size={'lg'}
+        icon={<DiGoogleDrive />}
         isLoading={isSaveLoading}
         aria-label={'Save canvas'}
       />
