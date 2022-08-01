@@ -128,7 +128,7 @@ export function CanvasInput({
         aria-label={'Clear canvas'}
       />
       <IconButton
-        colorScheme={'green'}
+        colorScheme={'purple'}
         onClick={() => fileInputRef?.current?.click()}
         size={'lg'}
         icon={<FaFileImage />}
@@ -143,7 +143,7 @@ export function CanvasInput({
         aria-label={'Save canvas'}
       />
       <IconButton
-        colorScheme={'twitter'}
+        colorScheme={'green'}
         onClick={uploadToDrive}
         size={'lg'}
         icon={<DiGoogleDrive />}
