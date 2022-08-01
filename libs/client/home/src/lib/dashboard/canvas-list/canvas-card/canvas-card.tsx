@@ -25,7 +25,7 @@ import {
 import { useDeleteCanvas } from '@drawhub/client/api';
 import { useRef, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { MdPeople } from 'react-icons/md';
+import { MdPeople, MdPerson } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import StitchCanvasButton from './stitch-canvas-button';
 
@@ -76,9 +76,9 @@ export function CanvasCard({ _id, name, contributors, preview, isNew, isStitched
   return (
     <VStack borderRadius={20} bg={'gray.100'} p={5} spacing={5}>
       <HStack alignItems={'center'} w={'100%'}>
-        <Icon boxSize={6} as={MdPeople} />
+        <Icon boxSize={6} as={contributors.length > 1 ? MdPeople : MdPerson} />
         <Text my={'auto'} fontWeight={600} fontSize={'xl'}>
-          Team
+          {contributors.length > 1 ? 'Team' : 'Solo'}
         </Text>
         <Flex flex={'1 1 auto'} />
         {isNew ? (

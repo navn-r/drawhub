@@ -1,10 +1,10 @@
 import { Grid } from '@chakra-ui/react';
 import { ApiProvider } from '@drawhub/client/api';
-import { Dashboard } from './dashboard/dashboard';
-import { Draw } from './draw/draw';
-import { EmptyDisplay } from '@drawhub/client/ui';
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from '../components/sidebar';
+import { Dashboard } from './dashboard/dashboard';
+import { Draw } from './draw/draw';
+import Premium from './premium/premium';
 
 /* eslint-disable-next-line */
 export interface HomeProps {}
@@ -18,7 +18,7 @@ export function Home(props: HomeProps) {
           <Route path="/" element={<Dashboard />} />
           <Route path="/draw/:canvasId" element={<Draw />} />
           {/* TODO: Replace with Profile page */}
-          <Route path="/profile" element={<EmptyDisplay />} />
+          <Route path="/premium" element={<Premium />} />
         </Routes>
       </Grid>
     </ApiProvider>
