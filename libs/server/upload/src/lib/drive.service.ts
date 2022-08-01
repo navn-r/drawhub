@@ -17,7 +17,6 @@ export class DriveService {
       })
       .pipe(map((res) => res.data));
 
-    const x = firstValueFrom(req).then((val) => console.log('OVER HERE: ', val));
-    return x;
+    return firstValueFrom(req);
   }
 }
