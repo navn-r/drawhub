@@ -7,7 +7,7 @@ import { AuthController } from './auth.controller';
 @Module({
   imports: [PassportModule.register({ defaultStrategy: 'jwt' }), HttpModule],
   providers: [JwtStrategy, ManagementService],
-  exports: [PassportModule],
+  exports: [PassportModule, ManagementService],
   controllers: [AuthController],
 })
 export class AuthModule {}
