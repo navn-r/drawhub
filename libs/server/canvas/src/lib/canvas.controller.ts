@@ -52,7 +52,9 @@ export class CanvasController {
     @Param('canvasId') canvasId: CanvasId
   ) {
     const { userId } = req['user'];
+    console.log('BEFORE: ', userId);
     const { accessToken } = await this.managementService.getIdpAccessToken(userId);
+    console.log('AFTER: ', canvasId);
     return this.driveService.upload(file, accessToken, canvasId as string);
   }
 }

@@ -7,7 +7,6 @@ export class DriveService {
   constructor(private httpService: HttpService) {}
 
   async upload(file: Express.Multer.File, accessToken: string, canvasId: string) {
-    console.log(canvasId);
     // TODO: Investigate how to add metadata into file.
     const req = this.httpService
       .post('https://www.googleapis.com/upload/drive/v3/files', file.buffer, {
@@ -18,6 +17,7 @@ export class DriveService {
       })
       .pipe(map((res) => res.data));
 
-    return firstValueFrom(req);
+    const x = firstValueFrom(req).then((val) => console.log('OVER HERE: ', val));
+    return x;
   }
 }

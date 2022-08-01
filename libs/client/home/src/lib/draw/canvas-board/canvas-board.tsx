@@ -1,5 +1,5 @@
 import { Box, VStack } from '@chakra-ui/react';
-import { useGetCanvasImage, useSaveCanvas, useSocket } from '@drawhub/client/api';
+import { useGetCanvasImage, useSaveCanvas, useSocket, useUploadToDrive } from '@drawhub/client/api';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import CanvasInput from './canvas-input';
 
@@ -21,6 +21,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
   const [brushSize, setBrushSize] = useState(10);
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>();
   const { mutate, isLoading: isSaveLoading } = useSaveCanvas();
+  const { mutate: mutateDrive, isLoading: isDriveLoading } = useUploadToDrive();
   const { isLoading, data } = useGetCanvasImage(canvasId);
   const { socket, send } = useSocket(canvasId);
 
@@ -208,6 +209,21 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
     [canvasId, uploadImage]
   );
 
+  const uploadToDrive = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        return;
+      }
+
+      mutateDrive({
+        canvasId,
+        file: blob,
+      });
+    });
+  }, [mutateDrive, canvasId]);
+
   const saveCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -273,6 +289,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
         uploadImage={onUploadImage}
         clearCanvas={clearCanvas}
         saveCanvas={saveCanvas}
+        uploadToDrive={uploadToDrive}
         isSaveLoading={isSaveLoading}
       />
     </VStack>
