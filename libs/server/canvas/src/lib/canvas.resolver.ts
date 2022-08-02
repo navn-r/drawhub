@@ -63,7 +63,7 @@ export class CanvasResolver {
     const filteredContributors = canvas.contributors.filter((owner) => owner !== email);
 
     filteredContributors.forEach((owner) => {
-      this.emailService.add(owner, email, canvas.name);
+      this.emailService.add(owner, email, canvas.name, canvas._id as string);
     });
 
     return stitchedCanvas;
@@ -86,14 +86,14 @@ export class CanvasResolver {
   }
 
   @Mutation(() => Canvas)
-  async saveContributor(@Args('payload') { _id, ...data }: UpdateCanvasInput) {
+  async saveContributor(@CurrentUser() { email }: User, @Args('payload') { _id, ...data }: UpdateCanvasInput) {
     const canvas = await this.canvasService.get(_id);
-    const email = data['contributors'][0];
-    const saveContributor = await this.canvasService.saveContributor(_id, email);
+    const contributor = data['contributors'][0];
+    const saveContributor = await this.canvasService.saveContributor(_id, contributor);
     if (!saveContributor) {
       return canvas;
     }
-    this.emailService.invite(email, canvas.name, canvas._id as string);
+    this.emailService.invite(email, contributor, canvas.name, canvas._id as string);
     return saveContributor;
   }
 }

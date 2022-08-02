@@ -27,8 +27,8 @@ spec:
     spec:
       containers:
         - name: client
-          image: ghcr.io/utscc09/drawhub/client:latest
-          imagePullPolicy: 'Always'
+          image: drawhub/client:latest
+          imagePullPolicy: 'Never'
           envFrom:
             - secretRef:
                 name: app-secret
