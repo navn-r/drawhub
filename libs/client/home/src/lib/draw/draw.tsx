@@ -9,6 +9,7 @@ import {
   Code,
   Flex,
   Heading,
+  HStack,
   Skeleton,
 } from '@chakra-ui/react';
 import { useGetCanvas } from '@drawhub/client/api';
@@ -43,15 +44,17 @@ export function Draw(props: DrawProps) {
           Canvas ID: <Code as={'pre'}>{canvasId}</Code>
         </Skeleton>
         <Skeleton isLoaded={!isLoading}>
-          {!data?.canvas?.isPublic && canvasId ? (
-            <InviteUserButton canvasId={canvasId} contributors={data?.canvas?.contributors} />
-          ) : null}
-          <AvatarGroup size={'md'} max={4}>
-            {data?.canvas?.contributors.map((name: string) => (
-              // No duplicate contributor emails
-              <Avatar key={name} name={name} color={'white'} />
-            ))}
-          </AvatarGroup>
+          <HStack>
+            <AvatarGroup size={'md'} max={4}>
+              {data?.canvas?.contributors.map((name: string) => (
+                // No duplicate contributor emails
+                <Avatar key={name} name={name} color={'white'} />
+              ))}
+            </AvatarGroup>
+            {!data?.canvas?.isPublic && canvasId ? (
+              <InviteUserButton canvasId={canvasId} contributors={data?.canvas?.contributors} />
+            ) : null}
+          </HStack>
         </Skeleton>
       </Flex>
       {!isLoading && canvasId ? <CanvasBoard width={1250} height={800} canvasId={canvasId} /> : null}
