@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { ServerEmailService } from './server-email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { Module } from '@nestjs/common';
+import { EmailService } from './email.service';
 
 import { BullModule } from '@nestjs/bull';
-import { EmailConsumer } from './server-email.consumer';
+import { EmailConsumer } from './email.consumer';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { EmailConsumer } from './server-email.consumer';
     }),
   ],
   controllers: [],
-  providers: [ServerEmailService, EmailConsumer],
-  exports: [ServerEmailService],
+  providers: [EmailService, EmailConsumer],
+  exports: [EmailService],
 })
-export class ServerEmailModule {}
+export class EmailModule {}

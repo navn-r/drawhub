@@ -3,7 +3,7 @@ import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
 
 @Injectable()
-export class ServerEmailService {
+export class EmailService {
   private logger: Logger = new Logger('EmailEvents');
 
   constructor(@InjectQueue('email') private emailQueue: Queue) {}

@@ -41,6 +41,14 @@ const data = [
         text: 'Three in one (code first) : NestJs & GraphQl & Mongoose',
         href: 'https://dev.to/lotfi/three-in-one-code-first-nestjs-graphql-mongoose-30ie',
       },
+      {
+        text: 'Auth0 Docs - Call an Identity Provider API',
+        href: 'https://auth0.com/docs/authenticate/identity-providers/calling-an-external-idp-api',
+      },
+      {
+        text: 'Google Drive for Developers - Drive API',
+        href: 'https://developers.google.com/drive/api/guides/manage-uploads',
+      },
     ],
   },
   {

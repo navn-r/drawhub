@@ -1,5 +1,5 @@
 import { CurrentUser, GraphqlAuthGuard } from '@drawhub/server/auth';
-import { ServerEmailService } from '@drawhub/server/email';
+import { EmailService } from '@drawhub/server/email';
 import { UploadService } from '@drawhub/server/upload';
 import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
@@ -20,7 +20,7 @@ export class CanvasResolver {
   constructor(
     private canvasService: CanvasService,
     private uploadService: UploadService,
-    private emailService: ServerEmailService
+    private emailService: EmailService
   ) {}
 
   @Query(() => [Canvas])
