@@ -9,7 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
-import { ServerEmailModule } from '@drawhub/server/email';
+import { EmailModule } from '@drawhub/server/email';
 
 @Module({
   imports: [
@@ -36,7 +36,7 @@ import { ServerEmailModule } from '@drawhub/server/email';
       }),
       inject: [ConfigService],
     }),
-    ServerEmailModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

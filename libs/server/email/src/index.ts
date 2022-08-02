@@ -1,2 +1,2 @@
-export * from './lib/server-email.service';
-export * from './lib/server-email.module';
+export * from './lib/email.service';
+export * from './lib/email.module';
