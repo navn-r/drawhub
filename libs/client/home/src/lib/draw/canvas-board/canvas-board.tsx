@@ -291,6 +291,7 @@ export function CanvasBoard({ width, height, canvasId }: CanvasBoardProps) {
         saveCanvas={saveCanvas}
         uploadToDrive={uploadToDrive}
         isSaveLoading={isSaveLoading}
+        isDriveLoading={isDriveLoading}
       />
     </VStack>
   );

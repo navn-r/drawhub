@@ -17,7 +17,6 @@ export function Home(props: HomeProps) {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/draw/:canvasId" element={<Draw />} />
-          {/* TODO: Replace with Profile page */}
           <Route path="/premium" element={<Premium />} />
         </Routes>
       </Grid>

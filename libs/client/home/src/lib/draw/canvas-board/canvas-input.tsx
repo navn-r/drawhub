@@ -10,8 +10,7 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useCallback, useRef } from 'react';
-import { FaEraser, FaFileImage, FaPencilAlt, FaSave, FaTrashAlt } from 'react-icons/fa';
-import { DiGoogleDrive } from 'react-icons/di';
+import { FaEraser, FaFileImage, FaPencilAlt, FaSave, FaTrashAlt, FaGoogleDrive } from 'react-icons/fa';
 
 export interface CanvasInputProps {
   width: number;
@@ -22,6 +21,7 @@ export interface CanvasInputProps {
   saveCanvas: () => void;
   uploadToDrive: () => void;
   isSaveLoading: boolean;
+  isDriveLoading: boolean;
 }
 
 /**
@@ -63,6 +63,7 @@ export function CanvasInput({
   saveCanvas,
   uploadToDrive,
   isSaveLoading,
+  isDriveLoading,
 }: CanvasInputProps) {
   const colorPickerRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -146,9 +147,9 @@ export function CanvasInput({
         colorScheme={'green'}
         onClick={uploadToDrive}
         size={'lg'}
-        icon={<DiGoogleDrive />}
-        isLoading={isSaveLoading}
-        aria-label={'Save canvas'}
+        icon={<FaGoogleDrive />}
+        isLoading={isDriveLoading}
+        aria-label={'Upload canvas to google drive'}
       />
       <Input type="file" ref={fileInputRef} display={'none'} onChange={uploadImage} />
     </HStack>

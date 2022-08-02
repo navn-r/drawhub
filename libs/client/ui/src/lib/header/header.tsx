@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { ButtonGroup, Heading, HStack, Stack } from '@chakra-ui/react';
+import { Heading, HStack, Stack } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import AvatarPopover from './avatar-popover';
@@ -25,9 +25,6 @@ export function Header(props: HeaderProps) {
         DrawHub
       </Heading>
       <HStack spacing={5} alignItems={'center'}>
-        <ButtonGroup spacing={5} variant={'link'}>
-          {/* TODO: Insert authenticated route links here */}
-        </ButtonGroup>
         <AvatarPopover />
       </HStack>
     </Stack>
