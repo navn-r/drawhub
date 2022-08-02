@@ -37,8 +37,10 @@ spec:
     spec:
       containers:
         - name: server
-          image: drawhub/server:latest
-          imagePullPolicy: 'Never'
+          image: ghcr.io/utscc09/drawhub/server:latest
+          imagePullPolicy: 'Always'
+          imagePullSecret:
+            - name: ghcr-secret
           envFrom:
             - configMapRef:
                 name: server-config
