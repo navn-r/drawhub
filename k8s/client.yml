@@ -25,12 +25,12 @@ spec:
       labels:
         component: client
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: client
-          image: ghcr.io/utscc09/drawhub/client:latest
-          imagePullPolicy: 'Always'
-          imagePullSecret:
-            - name: ghcr-secret
+          image: 'ghcr.io/utscc09/drawhub/client:latest'
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: app-secret

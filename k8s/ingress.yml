@@ -12,8 +12,9 @@ metadata:
         proxy_set_header Host $host;
       }
 spec:
+  ingressClassName: nginx
   rules:
-    - host: localhost
+    - host: drawhub.tech
       http:
         paths:
           - path: /

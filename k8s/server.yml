@@ -35,12 +35,12 @@ spec:
       labels:
         component: server
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: server
-          image: ghcr.io/utscc09/drawhub/server:latest
-          imagePullPolicy: 'Always'
-          imagePullSecret:
-            - name: ghcr-secret
+          image: 'ghcr.io/utscc09/drawhub/server:latest'
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: server-config
