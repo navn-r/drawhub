@@ -79,7 +79,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://navn.me"><img src="https://avatars.githubusercontent.com/u/59669957?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Navinn Ravindaran</b></sub></a><br /><a href="https://github.com/navn-r/drawhub/commits?author=navn-r" title="Code">💻</a></td>
+    <td align="center"><a href="https://navn.me"><img src="https://avatars.githubusercontent.com/u/59669957?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Navinn Ravindaran</b></sub></a><br /><a href="https://github.com/navn-r/drawhub/commits?author=navn-r" title="Code">💻</a> <a href="#infra-navn-r" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="https://samyakmehta.netlify.app/"><img src="https://avatars.githubusercontent.com/u/54184722?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Samyak Mehta</b></sub></a><br /><a href="https://github.com/navn-r/drawhub/commits?author=Samyakk123" title="Code">💻</a></td>
   </tr>
 </table>
