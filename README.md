@@ -1,4 +1,7 @@
 <div align="center">
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
   <img src="docs/assets/banner.png" />
 </div>
 <br />
@@ -65,3 +68,23 @@ DrawHub is the easiest and fastest way to get your ideas onto a digital canvas. 
 
 <img src="docs/assets/k8s.svg" width="100%"/>
 
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://navn.me"><img src="https://avatars.githubusercontent.com/u/59669957?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Navinn Ravindaran</b></sub></a><br /><a href="https://github.com/navn-r/drawhub/commits?author=navn-r" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
